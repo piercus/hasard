@@ -1,0 +1,38 @@
+{
+  "name": "sometimes",
+  "version": "1.0.0",
+  "description": "Generate random objects, arrays, values, tensors, string ... in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piercus/sometimes.git"
+  },
+  "keywords": [
+    "sometimes",
+    "generate",
+    "generation",
+    "imgaug",
+    "random",
+    "distribution",
+    "tensor",
+    "shape",
+    "random",
+    "array",
+    "random",
+    "objects"
+  ],
+  "author": "Pierre Colle <piercus@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/piercus/sometimes/issues"
+  },
+  "homepage": "https://github.com/piercus/sometimes#readme",
+  "devDependencies": {
+    "ava": "^1.2.1",
+    "semantic-release": "^15.13.3",
+    "xo": "^0.24.0"
+  }
+}

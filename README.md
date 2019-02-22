@@ -12,20 +12,39 @@ Inspired by :
 * [probability-distributions](https://github.com/Mattasher/probability-distributions)
 * [imgaug](https://github.com/aleju/imgaug)
 
+## Description
 
-## sometimes.Value(Array.<Any>)
+```javascript
+const sometimes = require('sometimes');
+
+const v = new sometimes.Value(['white', 'yellow'])
+
+sometimes.run(3).then(values => {
+	console.log(values)
+	// ['white', 'yellow', 'white']
+})
+
+sometimes.runOnce().then(values => {
+	console.log(values)
+	// 'yellow'
+})
+```
+
+## List of functions
+
+
+### sometimes.Value(Array.<Choice>)
 
 ```javascript
 const v = new sometimes.Value(['white', 'yellow'])
 ```
 
-## sometimes.Boolean(Number)
+### sometimes.Boolean(probability)
 
 ```javascript
 const v = new sometimes.Boolean(0.2); // will be true 20% of the time
 ```
-
-## sometimes.Value(Object)
+### sometimes.Value({choices, weights})
 
 ```javascript
 const v = new sometimes.Value({
@@ -33,12 +52,13 @@ const v = new sometimes.Value({
 	weights: [0.75, 0.25]
 })
 ```
-## sometimes.Number(Number)
+
+### sometimes.Number([start, end])
 
 ```javascript
 const v = new sometimes.Number([0, 1])
 ```
-## sometimes.Number(Object)
+### sometimes.Number({type: String, ...})
 
 ```javascript
 const v = new sometimes.Number({
@@ -63,13 +83,13 @@ const v = new sometimes.Number({
 })
 ```
 
-## sometimes.Integer(start, end)
+### sometimes.Integer([start, end])
 
 ```javascript
 const v = new sometimes.Integer([0, 10])
 
 ```
-## sometimes.String(Object)
+### sometimes.String({value, size})
 
 ```javascript
 const v = new sometimes.String({
@@ -78,7 +98,7 @@ const v = new sometimes.String({
 })
 ```
 
-## sometimes.Array(Object)
+### sometimes.Array({value, size})
 
 ```javascript
 const v = new sometimes.Array({
@@ -87,7 +107,7 @@ const v = new sometimes.Array({
 })
 ```
 
-## sometimes.Object(Object)
+### sometimes.Object(Object.<String, Sometime>)
 
 ```javascript
 const obj = new sometimes.Object({
@@ -96,9 +116,18 @@ const obj = new sometimes.Object({
 })
 ```
 
-## sometimes.Matrix(Object)
+### sometimes.Matrix({value, shape})
 
 create matrix with a specific shape
+
+```javascript
+const v = new sometimes.Matrix({
+	value: new sometimes.Integer([0, 255]),
+	shape: [128,128,3]
+});
+```
+
+create random matrix with random values and random size
 
 ```javascript
 const v = new sometimes.Matrix({
@@ -108,13 +137,4 @@ const v = new sometimes.Matrix({
 		size: new sometimes.Integer([1, 4])
 	})
 })
-```
-
-create random matrix with random values and random size
-
-```javascript
-const v = new sometimes.Matrix({
-	value: new sometimes.Integer([0, 255]),
-	shape: [128,128,3]
-});
 ```
