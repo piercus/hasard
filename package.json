@@ -4,7 +4,10 @@
   "description": "Generate random objects, arrays, values, tensors, string ... in javascript",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "lint": "xo",
+    "test": "nyc ava test/*",
+    "semantic-release": "semantic-release",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
