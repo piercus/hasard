@@ -26,15 +26,14 @@ const v = new hasard.Object({
 	size: new hasard.Integer([10, 20])
 });
 
-v.run(3).then(values => {
-	console.log(values)
-	// [{color: 'white', size: 12}, {color: 'yellow', size: 18}, {color: 'yellow', size: 17}]
-})
+const values = v.run(3);
+console.log(values);
+// [{color: 'white', size: 12}, {color: 'yellow', size: 18}, {color: 'yellow', size: 17}]
 
-v.runOnce().then(values => {
-	console.log(values)
-	// {color: 'white', size: 13}
-})
+const value = v.runOnce()
+console.log(value)
+// {color: 'white', size: 13}
+
 ```
 
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
