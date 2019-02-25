@@ -16,28 +16,31 @@ Inspired by :
 * [probability-distributions](https://github.com/Mattasher/probability-distributions)
 * [imgaug](https://github.com/aleju/imgaug)
 
-## Description
+## Usage
 
 ```javascript
 const hasard = require('hasard');
 
-const v = new hasard.Value(['white', 'yellow'])
+const v = new hasard.Object({
+	color: new hasard.Value(['white', 'yellow']),
+	size: new hasard.Integer([10, 20])
+});
 
-hasard.run(3).then(values => {
+v.run(3).then(values => {
 	console.log(values)
-	// ['white', 'yellow', 'white']
+	// [{color: 'white', size: 12}, {color: 'yellow', size: 18}, {color: 'yellow', size: 17}]
 })
 
-hasard.runOnce().then(values => {
+v.runOnce().then(values => {
 	console.log(values)
-	// 'yellow'
+	// {color: 'white', size: 13}
 })
 ```
 
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```
-const v = new hasard.Value({choices: ['white', 'yellow'], prng : <custom prng>})
+const n = new hasard.Value({choices: ['white', 'yellow'], prng : <custom prng>})
 ```
 
 ## List of functions
