@@ -5,7 +5,7 @@ const test = require('ava');
 const sometimes = require('..');
 
 const testDistribution = function (t, actualSometimes, individualExpectation, globalExpectation = null) {
-	const n = 100;
+	const n = 10000;
 	return actualSometimes.runAsync(n).then(res => {
 		t.is(res.length, n);
 		res.forEach(a => {
@@ -68,7 +68,7 @@ test('sometimes.Value(Object)', t => {
 		},
 		(t, as) => {
 			const counts = opts.choices.map(s => as.filter(v => v === s).length/as.length);
-			const expected = opts.choices.weights;
+			const expected = opts.weights;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach((c, index) => {
 				t.true(Math.abs(c - expected[index]) < threshold);
@@ -126,7 +126,8 @@ test('sometimes.Number(Object)', t => {
 			const splits = new Array(nSplit).fill(1).map((_, index) => {
 				return ((uniform.end - uniform.start) * index / nSplit) + uniform.start;
 			});
-			const counts = splits.map(n => as.filter(v => n <= v && v < n + 1).length/as.length);
+			const step = splits[1] - splits[0];
+			const counts = splits.map(n => as.filter(v => n <= v && v < n + step).length/as.length);
 			const average = 1 / counts.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach(c => {
@@ -149,7 +150,7 @@ test('sometimes.Number(Object)', t => {
 				const sum = as.reduce((a, b) => a + b, 0);
 				const average = sum / as.length;
 				const variance = as.map(a => (a - average) * (a - average)).reduce((a, b) => a + b, 0) / as.length;
-				const threshold = 1 / Math.sqrt(as.length);
+				const threshold = 100 / Math.sqrt(as.length);
 				t.true(Math.abs(normal.mean - average) < threshold);
 				t.true(Math.abs(variance - (normal.std * normal.std)) < threshold);
 			}
@@ -211,7 +212,7 @@ test('sometimes.Integer({type, ...})', t => {
 		(t, as) => {
 			const sum = as.reduce((a, b) => a + b, 0);
 			const average = sum / as.length;
-			const threshold = 1 / Math.sqrt(as.length);
+			const threshold = 100 / Math.sqrt(as.length);
 			t.true(Math.abs(poisson.lambda - average) < threshold);
 		}
 	);
@@ -271,7 +272,7 @@ test('sometimes.Object(Object)', t => {
 		new sometimes.Object(opts),
 		(t, a) => {
 			Object.keys(keys).forEach(k => {
-				t.not(a[k].indexOf(keys[k]), -1);
+				t.not(keys[k].indexOf(a[k]), -1);
 			});
 		}
 	);
@@ -317,7 +318,7 @@ test('sometimes.Matrix(Object)', t => {
 	return testDistribution(t,
 		new sometimes.Matrix(opts),
 		(t, a) => {
-			t.true(a.isArray());
+			t.true(Array.isArray(a));
 			testSameSize(a, t);
 			const shape = getShape(a);
 			t.true(shape.length >= shapeSize[0]);
