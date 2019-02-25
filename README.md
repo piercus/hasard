@@ -1,11 +1,11 @@
-[![Build Status](https://travis-ci.org/piercus/sometimes.svg?branch=master)](https://travis-ci.org/piercus/sometimes)
+[![Build Status](https://travis-ci.org/piercus/hasard.svg?branch=master)](https://travis-ci.org/piercus/hasard)
 
-[![codecov](https://codecov.io/gh/piercus/sometimes/branch/master/graph/badge.svg)](https://codecov.io/gh/piercus/sometimes)
+[![codecov](https://codecov.io/gh/piercus/hasard/branch/master/graph/badge.svg)](https://codecov.io/gh/piercus/hasard)
 
 ## Installation
 
 ```
-npm install sometimes
+npm install hasard
 ```
 
 ## Description
@@ -19,16 +19,16 @@ Inspired by :
 ## Description
 
 ```javascript
-const sometimes = require('sometimes');
+const hasard = require('hasard');
 
-const v = new sometimes.Value(['white', 'yellow'])
+const v = new hasard.Value(['white', 'yellow'])
 
-sometimes.run(3).then(values => {
+hasard.run(3).then(values => {
 	console.log(values)
 	// ['white', 'yellow', 'white']
 })
 
-sometimes.runOnce().then(values => {
+hasard.runOnce().then(values => {
 	console.log(values)
 	// 'yellow'
 })
@@ -37,41 +37,41 @@ sometimes.runOnce().then(values => {
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```
-const v = new sometimes.Value({choices: ['white', 'yellow'], prng : <custom prng>})
+const v = new hasard.Value({choices: ['white', 'yellow'], prng : <custom prng>})
 ```
 
 ## List of functions
 
 
-### sometimes.Value(Array.<Choice>)
+### hasard.Value(Array.<Choice>)
 
 ```javascript
-const v = new sometimes.Value(['white', 'yellow'])
+const v = new hasard.Value(['white', 'yellow'])
 ```
 
-### sometimes.Boolean(probability)
+### hasard.Boolean(probability)
 
 ```javascript
-const v = new sometimes.Boolean(0.2); // will be true 20% of the time
+const v = new hasard.Boolean(0.2); // will be true 20% of the time
 ```
-### sometimes.Value({choices, weights})
+### hasard.Value({choices, weights})
 
 ```javascript
-const v = new sometimes.Value({
+const v = new hasard.Value({
 	choices: ['white', 'yellow'],
 	weights: [0.75, 0.25]
 })
 ```
 
-### sometimes.Number([start, end])
+### hasard.Number([start, end])
 
 ```javascript
-const v = new sometimes.Number([0, 1])
+const v = new hasard.Number([0, 1])
 ```
-### sometimes.Number({type: String, ...})
+### hasard.Number({type: String, ...})
 
 ```javascript
-const v = new sometimes.Number({
+const v = new hasard.Number({
 	type: 'uniform',
 	start: 0,
 	end: 1,
@@ -79,60 +79,60 @@ const v = new sometimes.Number({
 ```
 
 ```javascript
-const v = new sometimes.Number({
+const v = new hasard.Number({
 	type: 'poisson',
 	lambda: 3
 })
 ```
 
 ```javascript
-const v = new sometimes.Number({
+const v = new hasard.Number({
 	type: 'normal',
 	mean: -2,
 	std: 3
 })
 ```
 
-### sometimes.Integer([start, end])
+### hasard.Integer([start, end])
 
 ```javascript
-const v = new sometimes.Integer([0, 10])
+const v = new hasard.Integer([0, 10])
 
 ```
-### sometimes.String({value, size})
+### hasard.String({value, size})
 
 ```javascript
-const v = new sometimes.String({
-	value: new sometimes.Value(["a", "b", "c", "d"]),
-	size: new sometimes.Integer([5, 10])
+const v = new hasard.String({
+	value: new hasard.Value(["a", "b", "c", "d"]),
+	size: new hasard.Integer([5, 10])
 })
 ```
 
-### sometimes.Array({value, size})
+### hasard.Array({value, size})
 
 ```javascript
-const v = new sometimes.Array({
-	value: new sometimes.Integer([0, 255]),
-	size: new sometimes.Integer([5, 10]),
+const v = new hasard.Array({
+	value: new hasard.Integer([0, 255]),
+	size: new hasard.Integer([5, 10]),
 })
 ```
 
-### sometimes.Object(Object.<String, Sometime>)
+### hasard.Object(Object.<String, Sometime>)
 
 ```javascript
-const obj = new sometimes.Object({
-	color1 : new sometimes.Value(['white', 'yellow']),
-	color2 : new Sometimes.Value(['black', 'grey'])
+const obj = new hasard.Object({
+	color1 : new hasard.Value(['white', 'yellow']),
+	color2 : new Hasard.Value(['black', 'grey'])
 })
 ```
 
-### sometimes.Matrix({value, shape})
+### hasard.Matrix({value, shape})
 
 create matrix with a specific shape
 
 ```javascript
-const v = new sometimes.Matrix({
-	value: new sometimes.Integer([0, 255]),
+const v = new hasard.Matrix({
+	value: new hasard.Integer([0, 255]),
 	shape: [128,128,3]
 });
 ```
@@ -140,11 +140,11 @@ const v = new sometimes.Matrix({
 create random matrix with random values and random size
 
 ```javascript
-const v = new sometimes.Matrix({
-	value: new sometimes.Integer([0, 255]),
-	shape: new sometimes.Array({
-		value: new sometimes.Integer([5, 10]),
-		size: new sometimes.Integer([1, 4])
+const v = new hasard.Matrix({
+	value: new hasard.Integer([0, 255]),
+	shape: new hasard.Array({
+		value: new hasard.Integer([5, 10]),
+		size: new hasard.Integer([1, 4])
 	})
 })
 ```

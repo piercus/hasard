@@ -2,11 +2,11 @@
 /* eslint ava/prefer-async-await: "off" */
 const test = require('ava');
 
-const sometimes = require('..');
+const hasard = require('..');
 
-const testDistribution = function (t, actualSometimes, individualExpectation, globalExpectation = null) {
+const testDistribution = function (t, actualHasard, individualExpectation, globalExpectation = null) {
 	const n = 10000;
-	return actualSometimes.runAsync(n).then(res => {
+	return actualHasard.runAsync(n).then(res => {
 		t.is(res.length, n);
 		res.forEach(a => {
 			individualExpectation(t, a);
@@ -17,11 +17,11 @@ const testDistribution = function (t, actualSometimes, individualExpectation, gl
 	});
 };
 
-test('sometimes.Value(Array.<Any>)', t => {
+test('hasard.Value(Array.<Any>)', t => {
 	const values = ['white', 'yellow'];
 
 	return testDistribution(t,
-		new sometimes.Value(values),
+		new hasard.Value(values),
 		(t, a) => {
 			t.not(values.indexOf(a), -1);
 		},
@@ -36,11 +36,11 @@ test('sometimes.Value(Array.<Any>)', t => {
 	);
 });
 
-test('sometimes.Boolean(Number)', t => {
+test('hasard.Boolean(Number)', t => {
 	const p = 0.2;
 
 	return testDistribution(t,
-		new sometimes.Boolean(p),
+		new hasard.Boolean(p),
 		(t, a) => {
 			t.is(typeof (a), 'boolean');
 		},
@@ -55,14 +55,14 @@ test('sometimes.Boolean(Number)', t => {
 	);
 });
 
-test('sometimes.Value(Object)', t => {
+test('hasard.Value(Object)', t => {
 	const opts = {
 		choices: ['white', 'yellow'],
 		weights: [0.75, 0.25]
 	};
 
 	return testDistribution(t,
-		new sometimes.Value(opts),
+		new hasard.Value(opts),
 		(t, a) => {
 			t.not(opts.choices.indexOf(a), -1);
 		},
@@ -77,20 +77,20 @@ test('sometimes.Value(Object)', t => {
 	);
 });
 
-test('sometimes.Number(Array.<Number>)', t => {
+test('hasard.Number(Array.<Number>)', t => {
 	t.throws(() => {
-		new sometimes.Number([1]);
+		new hasard.Number([1]);
 	}, 'invalid array, range array length must be 2');
 
 	t.throws(() => {
-		new sometimes.Number([0, 1, 2]);
+		new hasard.Number([0, 1, 2]);
 	}, 'invalid array, range array length must be 2');
 
 	const range = [10, 15];
 	const splits = [10, 11, 12, 13, 14];
 
 	return testDistribution(t,
-		new sometimes.Number(range),
+		new hasard.Number(range),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= range[0]);
@@ -107,7 +107,7 @@ test('sometimes.Number(Array.<Number>)', t => {
 	);
 });
 
-test('sometimes.Number(Object)', t => {
+test('hasard.Number(Object)', t => {
 	const uniform = {
 		type: 'uniform',
 		start: 22,
@@ -115,7 +115,7 @@ test('sometimes.Number(Object)', t => {
 	};
 
 	return testDistribution(t,
-		new sometimes.Number(uniform),
+		new hasard.Number(uniform),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= uniform.start);
@@ -142,7 +142,7 @@ test('sometimes.Number(Object)', t => {
 		};
 
 		return testDistribution(t,
-			new sometimes.Number(normal),
+			new hasard.Number(normal),
 			(t, a) => {
 				t.is(typeof (a), 'number');
 			},
@@ -158,27 +158,27 @@ test('sometimes.Number(Object)', t => {
 	});
 });
 
-test('sometimes.Integer([start, end])', t => {
+test('hasard.Integer([start, end])', t => {
 	t.throws(() => {
-		new sometimes.Integer([1]);
+		new hasard.Integer([1]);
 	}, '1 must be a length-2 array');
 
 	t.throws(() => {
-		new sometimes.Integer([0, 1, 2]);
+		new hasard.Integer([0, 1, 2]);
 	}, '0,1,2 must be a length-2 array');
 
 	t.throws(() => {
-		new sometimes.Integer([0.1, 3]);
+		new hasard.Integer([0.1, 3]);
 	}, 'start (0.1) must be an integer');
 
 	t.throws(() => {
-		new sometimes.Integer([0, 3.1]);
+		new hasard.Integer([0, 3.1]);
 	}, 'end (3.1) must be an integer');
 
 	const range = [10, 15];
 
 	return testDistribution(t,
-		new sometimes.Integer(range),
+		new hasard.Integer(range),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.is(a, Math.floor(a));
@@ -197,14 +197,14 @@ test('sometimes.Integer([start, end])', t => {
 	);
 });
 
-test('sometimes.Integer({type, ...})', t => {
+test('hasard.Integer({type, ...})', t => {
 	const poisson = {
 		type: 'poisson',
 		lambda: 3
 	};
 
 	return testDistribution(t,
-		new sometimes.Integer(poisson),
+		new hasard.Integer(poisson),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= 0);
@@ -218,14 +218,14 @@ test('sometimes.Integer({type, ...})', t => {
 	);
 });
 
-test('sometimes.String({value, size})', t => {
+test('hasard.String({value, size})', t => {
 	const range = [5, 10];
 	const chars = ['a', 'b', 'c', 'd'];
-	const value = new sometimes.Value(chars);
-	const size = new sometimes.Integer(range);
+	const value = new hasard.Value(chars);
+	const size = new hasard.Integer(range);
 
 	return testDistribution(t,
-		new sometimes.String({value, size}),
+		new hasard.String({value, size}),
 		(t, a) => {
 			t.is(typeof (a), 'string');
 			t.true(a.length >= range[0]);
@@ -237,14 +237,14 @@ test('sometimes.String({value, size})', t => {
 	);
 });
 
-test('sometimes.Array({value, size})', t => {
+test('hasard.Array({value, size})', t => {
 	const range = [5, 10];
 	const chars = ['a', 'b', 'c', 'd'];
-	const value = new sometimes.Value(chars);
-	const size = new sometimes.Integer(range);
+	const value = new hasard.Value(chars);
+	const size = new hasard.Integer(range);
 
 	return testDistribution(t,
-		new sometimes.Array({value, size}),
+		new hasard.Array({value, size}),
 		(t, a) => {
 			t.is(typeof (a), 'object');
 			t.true(a.length >= range[0]);
@@ -256,7 +256,7 @@ test('sometimes.Array({value, size})', t => {
 	);
 });
 
-test('sometimes.Object(Object)', t => {
+test('hasard.Object(Object)', t => {
 	const keys = {
 		color1: ['white', 'yellow'],
 		color2: ['black', 'grey']
@@ -265,11 +265,11 @@ test('sometimes.Object(Object)', t => {
 	const opts = {};
 
 	Object.keys(keys).forEach(k => {
-		opts[k] = new sometimes.Value(keys[k]);
+		opts[k] = new hasard.Value(keys[k]);
 	});
 
 	return testDistribution(t,
-		new sometimes.Object(opts),
+		new hasard.Object(opts),
 		(t, a) => {
 			Object.keys(keys).forEach(k => {
 				t.not(keys[k].indexOf(a[k]), -1);
@@ -278,16 +278,16 @@ test('sometimes.Object(Object)', t => {
 	);
 });
 
-test('sometimes.Matrix(Object)', t => {
+test('hasard.Matrix(Object)', t => {
 	const shapeSize = [1, 4];
 	const shapeValues = [5, 10];
 	const values = [0, 255];
 
 	const opts = {
-		value: new sometimes.Integer(values),
-		shape: new sometimes.Array({
-			value: new sometimes.Integer(shapeValues),
-			size: new sometimes.Integer(shapeSize)
+		value: new hasard.Integer(values),
+		shape: new hasard.Array({
+			value: new hasard.Integer(shapeValues),
+			size: new hasard.Integer(shapeSize)
 		})
 	};
 
@@ -316,7 +316,7 @@ test('sometimes.Matrix(Object)', t => {
 	};
 
 	return testDistribution(t,
-		new sometimes.Matrix(opts),
+		new hasard.Matrix(opts),
 		(t, a) => {
 			t.true(Array.isArray(a));
 			testSameSize(a, t);

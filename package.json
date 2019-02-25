@@ -1,5 +1,5 @@
 {
-  "name": "sometimes",
+  "name": "hasard",
   "version": "1.0.0",
   "description": "Generate random objects, arrays, values, tensors, string ... in javascript",
   "main": "index.js",
@@ -11,10 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/piercus/sometimes.git"
+    "url": "git+https://github.com/piercus/hasard.git"
   },
   "keywords": [
+    "hasard",
+    "hazard",
     "sometimes",
+    "prng",
+    "array",
+    "matrix",
+    "shape",
     "generate",
     "generation",
     "imgaug",
@@ -30,9 +36,9 @@
   "author": "Pierre Colle <piercus@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/piercus/sometimes/issues"
+    "url": "https://github.com/piercus/hasard/issues"
   },
-  "homepage": "https://github.com/piercus/sometimes#readme",
+  "homepage": "https://github.com/piercus/hasard#readme",
   "devDependencies": {
     "ava": "^1.2.1",
     "semantic-release": "^15.13.3",
