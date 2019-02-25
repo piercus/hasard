@@ -34,6 +34,12 @@ sometimes.runOnce().then(values => {
 })
 ```
 
+You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
+
+```
+const v = new sometimes.Value({choices: ['white', 'yellow'], prng : <custom prng>})
+```
+
 ## List of functions
 
 
