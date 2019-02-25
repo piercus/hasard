@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/piercus/hasard.svg?branch=master)](https://travis-ci.org/piercus/hasard)
+[![Build Status](https://travis-ci.org/piercus/sometimes.svg?branch=master)](https://travis-ci.org/piercus/hasard)
 
-[![codecov](https://codecov.io/gh/piercus/hasard/branch/master/graph/badge.svg)](https://codecov.io/gh/piercus/hasard)
+[![codecov](https://codecov.io/gh/piercus/sometimes/branch/master/graph/badge.svg)](https://codecov.io/gh/piercus/hasard)
 
 ## Installation
 
