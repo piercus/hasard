@@ -26,7 +26,7 @@ test('sometimes.Value(Array.<Any>)', t => {
 			t.not(values.indexOf(a), -1);
 		},
 		(t, as) => {
-			const counts = values.map(s => as.filter(v => v === s).length/as.length);
+			const counts = values.map(s => as.filter(v => v === s).length / as.length);
 			const average = 1 / values.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach(c => {
@@ -45,7 +45,7 @@ test('sometimes.Boolean(Number)', t => {
 			t.is(typeof (a), 'boolean');
 		},
 		(t, as) => {
-			const counts = [true, false].map(s => as.filter(v => v === s).length/as.length);
+			const counts = [true, false].map(s => as.filter(v => v === s).length / as.length);
 			const expected = [p, 1 - p];
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach((c, index) => {
@@ -67,7 +67,7 @@ test('sometimes.Value(Object)', t => {
 			t.not(opts.choices.indexOf(a), -1);
 		},
 		(t, as) => {
-			const counts = opts.choices.map(s => as.filter(v => v === s).length/as.length);
+			const counts = opts.choices.map(s => as.filter(v => v === s).length / as.length);
 			const expected = opts.weights;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach((c, index) => {
@@ -97,7 +97,7 @@ test('sometimes.Number(Array.<Number>)', t => {
 			t.true(a < range[1]);
 		},
 		(t, as) => {
-			const counts = splits.map(n => as.filter(v => n <= v && v < n + 1).length/as.length);
+			const counts = splits.map(n => as.filter(v => n <= v && v < n + 1).length / as.length);
 			const average = 1 / counts.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach(c => {
@@ -127,7 +127,7 @@ test('sometimes.Number(Object)', t => {
 				return ((uniform.end - uniform.start) * index / nSplit) + uniform.start;
 			});
 			const step = splits[1] - splits[0];
-			const counts = splits.map(n => as.filter(v => n <= v && v < n + step).length/as.length);
+			const counts = splits.map(n => as.filter(v => n <= v && v < n + step).length / as.length);
 			const average = 1 / counts.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			counts.forEach(c => {
