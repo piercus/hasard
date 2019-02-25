@@ -117,7 +117,7 @@ const v = new hasard.Array({
 })
 ```
 
-### hasard.Object(Object.<String, Sometime>)
+### hasard.Object(Object.<String, Hasard>)
 
 ```javascript
 const obj = new hasard.Object({
