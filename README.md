@@ -119,6 +119,15 @@ const v = new hasard.Array({
 })
 ```
 
+### hasard.Array(<Hasard>)
+
+```javascript
+const v = new hasard.Array([
+	new hasard.Integer([0, 255]),
+	new hasard.Integer([0, 255]),
+	new hasard.Integer([0, 255])
+])
+```
 ### hasard.Object(Object.<String, Hasard>)
 
 ```javascript

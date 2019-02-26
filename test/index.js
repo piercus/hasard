@@ -256,6 +256,23 @@ test('hasard.Array({value, size})', t => {
 	);
 });
 
+test('hasard.Array(<Array.<Hasard>>)', t => {
+	const chars = ['a', 'b', 'c', 'd'];
+	const haz = new hasard.Value(chars);
+	const values = [haz, haz, haz];
+
+	return testDistribution(t,
+		new hasard.Array(values),
+		(t, a) => {
+			t.is(typeof (a), 'object');
+			t.is(a.length, 3);
+			a.forEach(c => {
+				t.not(chars.indexOf(c), -1);
+			});
+		}
+	);
+});
+
 test('hasard.Object(Object)', t => {
 	const keys = {
 		color1: ['white', 'yellow'],
