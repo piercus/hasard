@@ -383,8 +383,8 @@ test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 });
 
 test('hasard.fn(Function)', t => {
-	const refA = new hasard.Reference(new hasard.Number([0, 1]))
-	const refB = new hasard.Reference(new hasard.Number([0, 1]))
+	const refA = new hasard.Reference(new hasard.Number([0, 1]));
+	const refB = new hasard.Reference(new hasard.Number([0, 1]));
 
 	const addHasard = hasard.fn((a, b) => {
 		return a + b;
