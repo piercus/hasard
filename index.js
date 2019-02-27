@@ -1,5 +1,5 @@
 const Abstract = require('./lib/hasard/abstract');
-
+const Function = require('./lib/hasard/function');
 module.exports = {
 	Integer: require('./lib/hasard/integer'),
 	Value: require('./lib/hasard/value'),
@@ -10,5 +10,11 @@ module.exports = {
 	String: require('./lib/hasard/string'),
 	Boolean: require('./lib/hasard/boolean'),
 	Reference: require('./lib/hasard/reference'),
-	isHasard: Abstract.isHasard
+	isHasard: Abstract.isHasard,
+	fn: Function.build,
+	Function,
+	multiply: operators.multiply,
+	divide: operators.divide,
+	add: operators.add,
+	substract: operators.substract
 };

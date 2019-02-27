@@ -381,3 +381,24 @@ test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 		}
 	);
 });
+
+test('hasard.fn(Function)', t => {
+	const refA = new hasard.Reference(new hasard.Number([0, 1]))
+	const refB = new hasard.Reference(new hasard.Number([0, 1]))
+
+	const addHasard = hasard.fn((a, b) => {
+		return a + b;
+	});
+
+	const obj = new hasard.Object({
+		a: refA,
+		b: refB,
+		sum: addHasard(refA, refB)
+	});
+	return testDistribution(t,
+		obj,
+		(t, {a, b, sum}) => {
+			t.is(a + b, sum);
+		}
+	);
+});
