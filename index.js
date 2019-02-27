@@ -1,3 +1,5 @@
+const Abstract = require('./lib/hasard/abstract');
+
 module.exports = {
 	Integer: require('./lib/hasard/integer'),
 	Value: require('./lib/hasard/value'),
@@ -7,5 +9,6 @@ module.exports = {
 	Matrix: require('./lib/hasard/matrix'),
 	String: require('./lib/hasard/string'),
 	Boolean: require('./lib/hasard/boolean'),
-	Reference: require('./lib/hasard/reference')
+	Reference: require('./lib/hasard/reference'),
+	isHasard: Abstract.isHasard
 };

@@ -193,4 +193,18 @@ v.run(2)
 
 ```
 
+## Helpers
+
+### hasard.isHasard(Any)
+
+Is the object is an instance of the hasard library
+
+```
+const value = new hasard.Integer([0, 255])
+
+hasard.isHasard(value)// true
+hasard.isHasard([0, 255]) // false
+```
+
+
 
