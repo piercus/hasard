@@ -6,5 +6,6 @@ module.exports = {
 	Number: require('./lib/hasard/number'),
 	Matrix: require('./lib/hasard/matrix'),
 	String: require('./lib/hasard/string'),
-	Boolean: require('./lib/hasard/boolean')
+	Boolean: require('./lib/hasard/boolean'),
+	Reference: require('./lib/hasard/reference')
 };

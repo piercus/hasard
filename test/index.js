@@ -269,6 +269,12 @@ test('hasard.Array(<Array.<Hasard>>)', t => {
 			a.forEach(c => {
 				t.not(chars.indexOf(c), -1);
 			});
+		},
+		(t, as) => {
+			const allSame = as.filter(a => {
+				return (a[0] === a[1]) && (a[1] === a[2]);
+			});
+			t.true(allSame.length < as.length / 2);
 		}
 	);
 });
@@ -344,6 +350,34 @@ test('hasard.Matrix(Object)', t => {
 				t.true(s >= shapeValues[0]);
 				t.true(s <= shapeValues[1]);
 			});
+		}
+	);
+});
+
+test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
+	const chars = ['a', 'b', 'c', 'd'];
+	const haz = new hasard.Reference(new hasard.Value(chars));
+	const values = [haz, haz, haz];
+
+	return testDistribution(t,
+		new hasard.Array(values),
+		(t, a) => {
+			t.is(typeof (a), 'object');
+			t.is(a.length, 3);
+			a.forEach(c => {
+				t.not(chars.indexOf(c), -1);
+			});
+		},
+		(t, as) => {
+			const allSame = as.filter(a => {
+				return (a[0] === a[1]) && (a[1] === a[2]);
+			});
+			t.is(allSame.length, as.length);
+			const first = as[0];
+			const sameAsFirst = as.filter(a => {
+				return (a[0] === first[0]);
+			});
+			t.true(sameAsFirst.length < as.length / 2);
 		}
 	);
 });

@@ -42,7 +42,7 @@ You can customize the [Pseudorandom number generator](https://en.wikipedia.org/w
 const n = new hasard.Value({choices: ['white', 'yellow'], prng : <custom prng>})
 ```
 
-## List of functions
+## Basic types
 
 
 ### hasard.Value(Array.<Choice>)
@@ -159,3 +159,38 @@ const v = new hasard.Matrix({
 	})
 })
 ```
+
+## Operators
+
+### hasard.Reference(<Hasard>)
+
+The reference is used to run only once the random generator on an object.
+
+Let's take an example of how it can be used
+
+```
+const value = new hasard.Integer([0, 255])
+const v = new hasard.Array([
+	value,
+	value,
+	value
+])
+
+v.run(2) 
+// all values are randomized independantly
+// [[22, 128, 54], [250, 134, 12]]
+
+const ref = new hasard.Reference(hasard.Integer([0, 255]));
+const v = new hasard.Array([
+	ref,
+	ref,
+	ref
+])
+
+v.run(2) 
+// reference are reused inside the same run
+// [[72, 72, 72], [114, 114, 114]]
+
+```
+
+
