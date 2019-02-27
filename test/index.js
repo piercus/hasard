@@ -279,6 +279,51 @@ test('hasard.Array(<Array.<Hasard>>)', t => {
 	);
 });
 
+test('hasard.Array({values, randomOrder})', t => {
+	const string = 'abcdefghijklmnopqrstuvwxyz';
+	const values = string.split('');
+	const shuffle = new hasard.Boolean();
+
+	return testDistribution(t,
+		new hasard.Array({values, shuffle}),
+		(t, a) => {
+			t.is(a.length, 26);
+		},
+		(t, as) => {
+			const shuffled = as.filter(a => {
+				return a.join('') !== string;
+			});
+			const threshold = 100 / Math.sqrt(as.length);
+			t.true(Math.abs((shuffled.length / as.length) - 0.5) < threshold);
+		}
+	);
+});
+
+test('hasard.Array({values, size})', t => {
+	const string = 'abcdefghijklmnopqrstuvwxyz';
+	const values = string.split('');
+	const size = 15;
+
+	t.throws(() => {
+		(new hasard.Array({values, size: 32})).runOnce();
+	}, 'Cannot pick 32 elements in 26-size array');
+
+	return testDistribution(t,
+		new hasard.Array({values, size}),
+		(t, a) => {
+			t.is(typeof (a), 'object');
+			t.is(a.length, size);
+			a.forEach((c, index) => {
+				t.not(values.indexOf(c), -1);
+				// Test unicity
+				t.is(a.indexOf(c), index);
+			});
+			// Order is still the same
+			t.is(a.sort(), a);
+		}
+	);
+});
+
 test('hasard.Object(Object)', t => {
 	const keys = {
 		color1: ['white', 'yellow'],
@@ -378,6 +423,39 @@ test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 				return (a[0] === first[0]);
 			});
 			t.true(sameAsFirst.length < as.length / 2);
+		}
+	);
+});
+
+test('hasard.Reference(<Hasard>) with context and contextName', t => {
+	const int = new hasard.Integer([0, 255]);
+	const ref = new hasard.Reference({source: int, context: 'color'});
+
+	const color = new hasard.Array({
+		values: [
+			ref,
+			ref,
+			ref
+		],
+		contextName: 'color'
+	});
+	const size = 10;
+	const colors = new hasard.Array({
+		value: color,
+		size
+	});
+
+	return testDistribution(t,
+		colors,
+		(t, a) => {
+			a.forEach(color => {
+				// Console.log(color)
+				t.is(typeof (color[0]), 'number');
+				t.is(color[0], color[1]);
+				t.is(color[0], color[2]);
+			});
+
+			t.true(a.filter(color => a[0][0] === color[0]).length < size / 3);
 		}
 	);
 });

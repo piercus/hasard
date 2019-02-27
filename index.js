@@ -2,7 +2,7 @@ const Abstract = require('./lib/hasard/abstract');
 const Function = require('./lib/hasard/function');
 const operators = require('./lib/operators');
 
-module.exports = {
+const cstrs = {
 	Integer: require('./lib/hasard/integer'),
 	Value: require('./lib/hasard/value'),
 	Array: require('./lib/hasard/array'),
@@ -12,11 +12,21 @@ module.exports = {
 	String: require('./lib/hasard/string'),
 	Boolean: require('./lib/hasard/boolean'),
 	Reference: require('./lib/hasard/reference'),
-	isHasard: Abstract.isHasard,
-	fn: Function.build,
-	Function,
-	multiply: operators.multiply,
-	divide: operators.divide,
-	add: operators.add,
-	substract: operators.substract
+	Function
 };
+
+const shortcuts = {};
+Object.keys(cstrs).forEach(key => {
+	shortcuts[key.toLowerCase()] = cstrs[key].build.bind(cstrs[key]);
+});
+
+const helpers = {
+	isHasard: Abstract.isHasard,
+	fn: shortcuts.function,
+	int: shortcuts.integer,
+	num: shortcuts.number,
+	str: shortcuts.string,
+	ref: shortcuts.ref
+};
+
+module.exports = Object.assign({}, cstrs, shortcuts, operators, helpers);

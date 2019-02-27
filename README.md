@@ -16,14 +16,14 @@ Inspired by :
 * [probability-distributions](https://github.com/Mattasher/probability-distributions)
 * [imgaug](https://github.com/aleju/imgaug)
 
-## Usage
+## Simple Usage
 
 ```javascript
-const hasard = require('hasard');
+const h = require('hasard');
 
-const v = new hasard.Object({
-	color: new hasard.Value(['white', 'yellow']),
-	size: new hasard.Integer([10, 20])
+const v = h.object({
+	color: h.value(['white', 'yellow']), // randomly choose between 2 values
+	size: h.integer([10, 20]) // randomly choose an integer between 10 and 20
 });
 
 const values = v.run(3);
@@ -39,41 +39,41 @@ console.log(value)
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```
-const n = new hasard.Value({choices: ['white', 'yellow'], prng : <custom prng>})
+const n = h.value({choices: ['white', 'yellow'], prng : <custom prng>})
 ```
 
 ## Basic types
 
 
-### new hasard.Value(Array.<Choice>)
+### hasard.value(Array.<Choice>)
 
 ```javascript
-const v = new hasard.Value(['white', 'yellow'])
+const v = h.value(['white', 'yellow'])
 ```
 
-### new hasard.Boolean(probability)
+### h.boolean(probability)
 
 ```javascript
-const v = new hasard.Boolean(0.2); // will be true 20% of the time
+const v = h.boolean(0.2); // will be true 20% of the time
 ```
-### new hasard.Value({choices, weights})
+### h.value({choices, weights})
 
 ```javascript
-const v = new hasard.Value({
+const v = h.value({
 	choices: ['white', 'yellow'],
 	weights: [0.75, 0.25]
 })
 ```
 
-### new hasard.Number([start, end])
+### h.number([start, end])
 
 ```javascript
-const v = new hasard.Number([0, 1])
+const v = h.number([0, 1])
 ```
-### new hasard.Number({type: String, ...})
+### h.number({type: String, ...})
 
 ```javascript
-const v = new hasard.Number({
+const v = h.number({
 	type: 'uniform',
 	start: 0,
 	end: 1,
@@ -81,69 +81,69 @@ const v = new hasard.Number({
 ```
 
 ```javascript
-const v = new hasard.Number({
+const v = h.number({
 	type: 'poisson',
 	lambda: 3
 })
 ```
 
 ```javascript
-const v = new hasard.Number({
+const v = h.number({
 	type: 'normal',
 	mean: -2,
 	std: 3
 })
 ```
 
-### new hasard.Integer([start, end])
+### h.integer([start, end])
 
 ```javascript
-const v = new hasard.Integer([0, 10])
+const v = h.integer([0, 10])
 
 ```
-### new hasard.String({value, size})
+### h.string({value, size})
 
 ```javascript
-const v = new hasard.String({
-	value: new hasard.Value(["a", "b", "c", "d"]),
-	size: new hasard.Integer([5, 10])
+const v = h.string({
+	value: h.value(["a", "b", "c", "d"]),
+	size: h.integer([5, 10])
 })
 ```
 
-### new hasard.Array({value, size})
+### h.array({value, size})
 
 ```javascript
-const v = new hasard.Array({
-	value: new hasard.Integer([0, 255]),
-	size: new hasard.Integer([5, 10]),
+const v = h.array({
+	value: h.integer([0, 255]),
+	size: h.integer([5, 10]),
 })
 ```
 
-### new hasard.Array(<Hasard>)
+### h.array(<Hasard>)
 
 ```javascript
-const v = new hasard.Array([
-	new hasard.Integer([0, 255]),
-	new hasard.Integer([0, 255]),
-	new hasard.Integer([0, 255])
+const v = h.array([
+	h.integer([0, 255]),
+	h.integer([0, 255]),
+	h.integer([0, 255])
 ])
 ```
-### new hasard.Object(Object.<String, Hasard>)
+### h.object(Object.<String, Hasard>)
 
 ```javascript
-const obj = new hasard.Object({
-	color1 : new hasard.Value(['white', 'yellow']),
-	color2 : new Hasard.Value(['black', 'grey'])
+const obj = h.object({
+	color1 : h.value(['white', 'yellow']),
+	color2 : h.value(['black', 'grey'])
 })
 ```
 
-### new hasard.Matrix({value, shape})
+### h.matrix({value, shape})
 
 create matrix with a specific shape
 
 ```javascript
-const v = new hasard.Matrix({
-	value: new hasard.Integer([0, 255]),
+const v = h.matrix({
+	value: h.integer([0, 255]),
 	shape: [128,128,3]
 });
 ```
@@ -151,11 +151,11 @@ const v = new hasard.Matrix({
 create random matrix with random values and random size
 
 ```javascript
-const v = new hasard.Matrix({
-	value: new hasard.Integer([0, 255]),
-	shape: new hasard.Array({
-		value: new hasard.Integer([5, 10]),
-		size: new hasard.Integer([1, 4])
+const v = h.matrix({
+	value: h.integer([0, 255]),
+	shape: h.array({
+		value: h.integer([5, 10]),
+		size: h.integer([1, 4])
 	})
 })
 ```
@@ -167,8 +167,8 @@ The reference is used to run only once the random generator on an object.
 Let's take an example of how it can be used
 
 ```
-const value = new hasard.Integer([0, 255])
-const v = new hasard.Array([
+const value = h.integer([0, 255])
+const v = h.array([
 	value,
 	value,
 	value
@@ -178,8 +178,8 @@ v.run(2)
 // all values are randomized independantly
 // [[22, 128, 54], [250, 134, 12]]
 
-const ref = new hasard.Reference(hasard.Integer([0, 255]));
-const v = new hasard.Array([
+const ref = h.reference(hasard.Integer([0, 255]));
+const v = h.array([
 	ref,
 	ref,
 	ref
@@ -199,7 +199,7 @@ v.run(2)
 Is the object is an instance of the hasard library
 
 ```
-const value = new hasard.Integer([0, 255])
+const value = h.integer([0, 255])
 
 hasard.isHasard(value)// true
 hasard.isHasard([0, 255]) // false
@@ -210,14 +210,14 @@ hasard.isHasard([0, 255]) // false
 Example of use
 
 ```
-const refA = new hasard.Reference(new hasard.Number([0, 1]))
-const refB = new hasard.Reference(new hasard.Number([0, 1]))
+const refA = h.reference(h.number([0, 1]))
+const refB = h.reference(h.number([0, 1]))
 
 const addHasard = hasard.fn((a, b) => {
 	return a + b;
 });
 
-const obj = new hasard.Object({
+const obj = h.object({
 	a: refA,
 	b: refB,
 	sum: addHasard(refA, refB)
@@ -230,10 +230,10 @@ Operators are shortcuts to not use `hasard.fn` for each operation
 
 ## hasard.add(<Hasard>, <Hasard>, ...)
 ```
-const refA = new hasard.Reference(new hasard.Number([0, 1]))
-const refB = new hasard.Reference(new hasard.Number([0, 1]))
+const refA = h.reference(h.number([0, 1]))
+const refB = h.reference(h.number([0, 1]))
 
-const obj = new hasard.Object({
+const obj = h.object({
 	a: refA,
 	b: refB,
 	sum: hasard.add(refA, refB)
@@ -242,10 +242,10 @@ const obj = new hasard.Object({
 
 ## hasard.substract(<Hasard>, <Hasard>)
 ```
-const refA = new hasard.Reference(new hasard.Number([0, 1]))
-const refB = new hasard.Reference(new hasard.Number([0, 1]))
+const refA = h.reference(h.number([0, 1]))
+const refB = h.reference(h.number([0, 1]))
 
-const obj = new hasard.Object({
+const obj = h.object({
 	a: refA,
 	b: refB,
 	diff: hasard.substract(refA, refB)
@@ -254,10 +254,10 @@ const obj = new hasard.Object({
 
 ## hasard.multiply(<Hasard>, <Hasard>)
 ```
-const refA = new hasard.Reference(new hasard.Number([0, 1]))
-const refB = new hasard.Reference(new hasard.Number([0, 1]))
+const refA = h.reference(h.number([0, 1]))
+const refB = h.reference(h.number([0, 1]))
 
-const obj = new hasard.Object({
+const obj = h.object({
 	a: refA,
 	b: refB,
 	mul: hasard.multiply(refA, refB)
@@ -266,12 +266,22 @@ const obj = new hasard.Object({
 
 ## hasard.divide(<Hasard>, <Hasard>)
 ```
-const refA = new hasard.Reference(new hasard.Number([0, 1]))
-const refB = new hasard.Reference(new hasard.Number([1, 2]))
+const refA = h.reference(h.number([0, 1]))
+const refB = h.reference(h.number([1, 2]))
 
-const obj = new hasard.Object({
+const obj = h.object({
 	a: refA,
 	b: refB,
 	ratio: hasard.divide(refA, refB)
 });
 ```
+
+
+## hasard.if(condition, iftrue, iffalse)
+## hasard.round(<Number>)
+## hasard.floor(<Number>)
+## hasard.ceil(<Number>)
+## hasard.concat(Array, Array)
+
+
+
