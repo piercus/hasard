@@ -1,7 +1,7 @@
 {
   "name": "hasard",
   "version": "1.0.0",
-  "description": "Generate random objects, arrays, values, tensors, string ... in javascript",
+  "description": "Random variables and nested objects (object, arrays, matrix) manipulation in javascript",
   "main": "index.js",
   "scripts": {
     "lint": "xo",
@@ -26,12 +26,17 @@
     "imgaug",
     "random",
     "distribution",
+    "poisson",
+    "normal",
     "tensor",
     "shape",
     "random",
     "array",
     "random",
-    "objects"
+    "objects",
+    "random variables",
+    "random objects",
+    "random array"
   ],
   "author": "Pierre Colle <piercus@gmail.com>",
   "license": "MIT",
