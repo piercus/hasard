@@ -10,11 +10,17 @@ npm install hasard
 
 ## Description
 
-Generate random objects, arrays, values, tensors, string ... in javascript
+Generate random nested objects, arrays, values, tensors, string ... in javascript
 
 Inspired by :
 * [probability-distributions](https://github.com/Mattasher/probability-distributions)
 * [imgaug](https://github.com/aleju/imgaug)
+
+Features: 
+* Generate basic types randomly (string, )
+* Nested randomness
+* Use distribution to generate numbers (normal, uniform) and integer
+* Add reference + context to fix a random variable value in a local context
 
 ## Simple Usage
 
@@ -30,8 +36,8 @@ const values = v.run(3);
 console.log(values);
 // [{color: 'white', size: 12}, {color: 'yellow', size: 18}, {color: 'yellow', size: 17}]
 
-const value = v.runOnce()
-console.log(value)
+const value = v.runOnce();
+console.log(value);
 // {color: 'white', size: 13}
 
 ```
@@ -39,45 +45,55 @@ console.log(value)
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```
-const n = h.value({choices: ['white', 'yellow'], prng : &lt;custom prng&gt;})
+const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
 ```
 
 ## Basic types
 
-
-### hasard.value(Array.&lt;Choice&gt;)
+### h.value(Array.&lt;Hasard&gt;)
 
 ```javascript
-const v = h.value(['white', 'yellow'])
+const v = h.value(['white', 'yellow']);
 ```
 
-### h.boolean(probability)
+### h.boolean({Hasard.&lt;Number&gt;} probability) -> Hasard.&lt;Boolean&gt;
 
 ```javascript
 const v = h.boolean(0.2); // will be true 20% of the time
 ```
-### h.value({choices, weights})
+### h.boolean({prob: Hasard.&lt;Number&gt;}) -> Hasard.&lt;Boolean&gt;
+
+```javascript
+const v = h.boolean({prob: 0.3}); // will be true 30% of the time
+```
+### h.value({choices, weights}) -> Hasard
 
 ```javascript
 const v = h.value({
 	choices: ['white', 'yellow'],
 	weights: [0.75, 0.25]
-})
+});
 ```
 
-### h.number([start, end])
+### h.number([{Hasard.&lt;Number&gt;} start, {Hasard.&lt;Number&gt;} end]) -> Hasard.&lt;Number&gt;
 
 ```javascript
-const v = h.number([0, 1])
+const v = h.number([0, 1]);
 ```
-### h.number({type: String, ...})
+### h.number({type: String, ...}) -> Hasard.&lt;Number&gt;
+
+Available distribution for numbers are 
+* **normal**
+* **uniform** 
+
+Please [Open an issue](https://github.com/piercus/hasard/issues/new) if you need another distribution
 
 ```javascript
 const v = h.number({
 	type: 'uniform',
 	start: 0,
 	end: 1,
-})
+});
 ```
 
 ```javascript
@@ -85,50 +101,51 @@ const v = h.number({
 	type: 'normal',
 	mean: -2,
 	std: 3
-})
+});
 ```
 
-### h.integer([start, end])
+### h.integer([{Hasard.&lt;Integer&gt;} start,{Hasard.&lt;Integer&gt;} end]) -> Hasard.&lt;Integer&gt;
 
 ```javascript
-const v = h.integer([0, 10])
-
+const v = h.integer([0, 10]);
 ```
 
-### h.integer({type: String, ...})
+### h.integer({type: String, ...}) -> Hasard.&lt;Integer&gt;
+
+For now, the only available distribution for integer is `poisson`, please [Open an issue](https://github.com/piercus/hasard/issues/new)
 
 ```javascript
-const v = h.number({
+const v = h.integer({
 	type: 'poisson',
 	lambda: 3
-})
+});
 ```
-### h.string({value, size})
+### h.string({value: Hasard, size: Hasard.&lt;integer&gt;}) -> Hasard.&lt;String&gt;
 
 ```javascript
 const v = h.string({
 	value: h.value(["a", "b", "c", "d"]),
 	size: h.integer([5, 10])
-})
+});
 ```
 
-### h.array({value, size})
+### h.array({value: Hasard, size: Hasard.&lt;Integer&gt;}) -> Hasard.&lt;Array&gt;
 
 ```javascript
 const v = h.array({
 	value: h.integer([0, 255]),
 	size: h.integer([5, 10]),
-})
+});
 ```
 
-### h.array(&lt;Hasard&gt;)
+### h.array(Array.&lt;Hasard&gt;) -> Hasard.&lt;Array&gt;
 
 ```javascript
 const v = h.array([
 	h.integer([0, 255]),
 	h.integer([0, 255]),
 	h.integer([0, 255])
-])
+]);
 ```
 ### h.object(Object.&lt;String, Hasard&gt;)
 
@@ -136,10 +153,10 @@ const v = h.array([
 const obj = h.object({
 	color1 : h.value(['white', 'yellow']),
 	color2 : h.value(['black', 'grey'])
-})
+});
 ```
 
-### h.matrix({value, shape})
+### h.matrix({value, shape}) -> Hasard
 
 create matrix with a specific shape
 
@@ -159,63 +176,97 @@ const v = h.matrix({
 		value: h.integer([5, 10]),
 		size: h.integer([1, 4])
 	})
-})
+});
 ```
 
-### hasard.Reference(&lt;Hasard&gt;)
+### h.Reference(Hasard) -> Hasard
 
-The reference is used to run only once the random generator on an object.
+A reference is generated only once per objet per run.
 
 Let's take an example of how it can be used
 
-```
-const value = h.integer([0, 255])
+```javascript
+const value = h.integer([0, 255]);
 const v = h.array([
 	value,
 	value,
 	value
-])
+]);
 
-v.run(2) 
-// all values are randomized independantly
+v.run(2);
+// all values are randomized independently
 // [[22, 128, 54], [250, 134, 12]]
 
-const ref = h.reference(hasard.Integer([0, 255]));
+const ref = h.reference(h.Integer([0, 255]));
 const v = h.array([
 	ref,
 	ref,
 	ref
-])
+]);
 
-v.run(2) 
-// reference are reused inside the same run
+v.run(2);
+// reference is reused inside the same run
 // [[72, 72, 72], [114, 114, 114]]
-
 ```
 
+### h.Reference({source: Hasard, context: Hasard.&lt;String&gt;}) -> Hasard
+
+When defined with a context, the reference is related to a context.
+You can define a context with any Hasard tool, by using `{contextName: &lt;name of the context&gt;}`
+
+```javascript
+
+// we will create a grey image in RGB so R = G = B
+const ref = h.reference({
+	source: h.Integer([0, 255]),
+	context: 'pixel'
+});
+
+// Here we need to use the form h.array({values, contextName})
+const pixel = h.array({
+	values: [
+		ref,
+		ref,
+		ref
+	],
+	contextName: 'pixel'
+});
+
+const img = h.matrix({
+	value: pixel,
+	shape: [2,2]
+})
+
+v.run(2);
+// reference is reused inside the same pixel
+// [
+//   [[[12, 12, 12],[145, 145, 145]],[[251, 251, 251],[88, 88, 88]]], // first run,
+//   [[[212, 212, 212],[2, 2, 2]],[[78, 78, 78],[130, 130, 130]]] // second run,
+//]
+```
 
 ## Helpers
 
-### hasard.isHasard(Any)
+### h.isHasard(Any) -> Boolean
 
-Is the object is an instance of the hasard library
+Check if the object is an instance of the hasard library
 
+```javascript
+const value = h.integer([0, 255]);
+
+h.isHasard(value); // true
+h.isHasard([0, 255]); // false
 ```
-const value = h.integer([0, 255])
 
-hasard.isHasard(value)// true
-hasard.isHasard([0, 255]) // false
-```
-
-### hasard.fn(Function)
+### h.fn(Function(Any, ...)) -> Function(Hasard.&lt;Any&gt;, ...)
 
 Example of use
 
-```
-const refA = h.reference(h.number([0, 1]))
-const refB = h.reference(h.number([0, 1]))
+```javascript
+const refA = h.reference(h.number([0, 1]));
+const refB = h.reference(h.number([0, 1]));
 
-const addHasard = hasard.fn((a, b) =&gt; {
+const addHasard = h.fn((a, b) =&gt; {
 	return a + b;
 });
 
@@ -225,65 +276,67 @@ const obj = h.object({
 	sum: addHasard(refA, refB)
 });
 ```
-## Operators
+## Shortcuts
 
-Operators are shortcuts to not use `hasard.fn` for each operation
+Hasard provides shortcuts for most common operations
 
-
-## hasard.add(&lt;Hasard&gt;, &lt;Hasard&gt;, ...)
-```
-const refA = h.reference(h.number([0, 1]))
-const refB = h.reference(h.number([0, 1]))
-
-const obj = h.object({
-	a: refA,
-	b: refB,
-	sum: hasard.add(refA, refB)
-});
-```
-
-## hasard.substract(&lt;Hasard&gt;, &lt;Hasard&gt;)
-```
-const refA = h.reference(h.number([0, 1]))
-const refB = h.reference(h.number([0, 1]))
+## h.add(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;, ...) -> Hasard
+```javascript
+const refA = h.reference(h.number([0, 1]));
+const refB = h.reference(h.number([0, 1]));
 
 const obj = h.object({
 	a: refA,
 	b: refB,
-	diff: hasard.substract(refA, refB)
+	sum: h.add(refA, refB)
 });
 ```
 
-## hasard.multiply(&lt;Hasard&gt;, &lt;Hasard&gt;)
-```
-const refA = h.reference(h.number([0, 1]))
-const refB = h.reference(h.number([0, 1]))
+## h.substract(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard
+```javascript
+const refA = h.reference(h.number([0, 1]));
+const refB = h.reference(h.number([0, 1]));
 
 const obj = h.object({
 	a: refA,
 	b: refB,
-	mul: hasard.multiply(refA, refB)
+	diff: h.substract(refA, refB)
 });
 ```
 
-## hasard.divide(&lt;Hasard&gt;, &lt;Hasard&gt;)
-```
-const refA = h.reference(h.number([0, 1]))
-const refB = h.reference(h.number([1, 2]))
+## h.multiply(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard
+```javascript
+const refA = h.reference(h.number([0, 1]));
+const refB = h.reference(h.number([0, 1]));
 
 const obj = h.object({
 	a: refA,
 	b: refB,
-	ratio: hasard.divide(refA, refB)
+	mul: h.multiply(refA, refB)
 });
 ```
 
+## h.divide(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard
+```javascript
+const refA = h.reference(h.number([0, 1]));
+const refB = h.reference(h.number([1, 2]));
 
-## hasard.if(condition, iftrue, iffalse)
-## hasard.round(&lt;Number&gt;)
-## hasard.floor(&lt;Number&gt;)
-## hasard.ceil(&lt;Number&gt;)
-## hasard.concat(Array, Array)
+const obj = h.object({
+	a: refA,
+	b: refB,
+	ratio: h.divide(refA, refB)
+});
+```
+
+## h.if(Hasard.&lt;Boolean&gt;, Hasard, Hasard) -> Hasard
+
+## h.round(Hasard.&lt;Number&gt;) -> Hasard
+
+## h.floor(Hasard.&lt;Number&gt;) -> Hasard
+
+## h.ceil(Hasard.&lt;Number&gt;) -> Hasard
+
+## h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard
 
 
 
