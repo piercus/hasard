@@ -10,7 +10,7 @@ npm install hasard
 
 ## Description
 
-Random variables and nested objects (object, arrays, matrix) manipulation in javascript
+Random variables and random nested objects manipulation in javascript
 
 Inspired by :
 * [probability-distributions](https://github.com/Mattasher/probability-distributions)

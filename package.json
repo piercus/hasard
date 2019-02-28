@@ -1,7 +1,7 @@
 {
   "name": "hasard",
   "version": "1.0.0",
-  "description": "Random variables and nested objects (object, arrays, matrix) manipulation in javascript",
+  "description": "Random variables and random nested objects manipulation in javascript",
   "main": "index.js",
   "scripts": {
     "lint": "xo",
