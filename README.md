@@ -82,13 +82,6 @@ const v = h.number({
 
 ```javascript
 const v = h.number({
-	type: 'poisson',
-	lambda: 3
-})
-```
-
-```javascript
-const v = h.number({
 	type: 'normal',
 	mean: -2,
 	std: 3
@@ -100,6 +93,15 @@ const v = h.number({
 ```javascript
 const v = h.integer([0, 10])
 
+```
+
+### h.integer({type: String, ...})
+
+```javascript
+const v = h.number({
+	type: 'poisson',
+	lambda: 3
+})
 ```
 ### h.string({value, size})
 
