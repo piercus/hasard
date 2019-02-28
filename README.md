@@ -56,7 +56,6 @@ const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
 
 ### h.value
 
-
 #### h.value(Array.&lt;Hasard&gt;)
 
 ```javascript
@@ -369,6 +368,3 @@ const obj = h.object({
 #### h.ceil(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 
 #### h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard.&lt;Array&gt;
-
-
-
