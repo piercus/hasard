@@ -39,13 +39,13 @@ console.log(value)
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```
-const n = h.value({choices: ['white', 'yellow'], prng : <custom prng>})
+const n = h.value({choices: ['white', 'yellow'], prng : &lt;custom prng&gt;})
 ```
 
 ## Basic types
 
 
-### hasard.value(Array.<Choice>)
+### hasard.value(Array.&lt;Choice&gt;)
 
 ```javascript
 const v = h.value(['white', 'yellow'])
@@ -121,7 +121,7 @@ const v = h.array({
 })
 ```
 
-### h.array(<Hasard>)
+### h.array(&lt;Hasard&gt;)
 
 ```javascript
 const v = h.array([
@@ -130,7 +130,7 @@ const v = h.array([
 	h.integer([0, 255])
 ])
 ```
-### h.object(Object.<String, Hasard>)
+### h.object(Object.&lt;String, Hasard&gt;)
 
 ```javascript
 const obj = h.object({
@@ -162,7 +162,7 @@ const v = h.matrix({
 })
 ```
 
-### hasard.Reference(<Hasard>)
+### hasard.Reference(&lt;Hasard&gt;)
 
 The reference is used to run only once the random generator on an object.
 
@@ -215,7 +215,7 @@ Example of use
 const refA = h.reference(h.number([0, 1]))
 const refB = h.reference(h.number([0, 1]))
 
-const addHasard = hasard.fn((a, b) => {
+const addHasard = hasard.fn((a, b) =&gt; {
 	return a + b;
 });
 
@@ -230,7 +230,7 @@ const obj = h.object({
 Operators are shortcuts to not use `hasard.fn` for each operation
 
 
-## hasard.add(<Hasard>, <Hasard>, ...)
+## hasard.add(&lt;Hasard&gt;, &lt;Hasard&gt;, ...)
 ```
 const refA = h.reference(h.number([0, 1]))
 const refB = h.reference(h.number([0, 1]))
@@ -242,7 +242,7 @@ const obj = h.object({
 });
 ```
 
-## hasard.substract(<Hasard>, <Hasard>)
+## hasard.substract(&lt;Hasard&gt;, &lt;Hasard&gt;)
 ```
 const refA = h.reference(h.number([0, 1]))
 const refB = h.reference(h.number([0, 1]))
@@ -254,7 +254,7 @@ const obj = h.object({
 });
 ```
 
-## hasard.multiply(<Hasard>, <Hasard>)
+## hasard.multiply(&lt;Hasard&gt;, &lt;Hasard&gt;)
 ```
 const refA = h.reference(h.number([0, 1]))
 const refB = h.reference(h.number([0, 1]))
@@ -266,7 +266,7 @@ const obj = h.object({
 });
 ```
 
-## hasard.divide(<Hasard>, <Hasard>)
+## hasard.divide(&lt;Hasard&gt;, &lt;Hasard&gt;)
 ```
 const refA = h.reference(h.number([0, 1]))
 const refB = h.reference(h.number([1, 2]))
@@ -280,9 +280,9 @@ const obj = h.object({
 
 
 ## hasard.if(condition, iftrue, iffalse)
-## hasard.round(<Number>)
-## hasard.floor(<Number>)
-## hasard.ceil(<Number>)
+## hasard.round(&lt;Number&gt;)
+## hasard.floor(&lt;Number&gt;)
+## hasard.ceil(&lt;Number&gt;)
 ## hasard.concat(Array, Array)
 
 
