@@ -279,7 +279,7 @@ v.run(2);
 
 ## Helpers
 
-### h.isHasard(Any) -> Boolean
+#### h.isHasard(Any) -> Boolean
 
 Check if the object is an instance of the hasard library
 
@@ -290,7 +290,7 @@ h.isHasard(value); // true
 h.isHasard([0, 255]); // false
 ```
 
-### h.fn(Function(Any, ...)) -> Function(Hasard.&lt;Any&gt;, ...)
+#### h.fn(Function(Any, ...)) -> Function(Hasard.&lt;Any&gt;, ...)
 
 Example of use
 
@@ -312,7 +312,7 @@ const obj = h.object({
 
 Hasard provides shortcuts for most common operations
 
-## h.add(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;, ...) -> Hasard.&lt;Number&gt;
+#### h.add(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;, ...) -> Hasard.&lt;Number&gt;
 ```javascript
 const refA = h.reference(h.number([0, 1]));
 const refB = h.reference(h.number([0, 1]));
@@ -324,7 +324,7 @@ const obj = h.object({
 });
 ```
 
-## h.substract(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.substract(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
 const refA = h.reference(h.number([0, 1]));
 const refB = h.reference(h.number([0, 1]));
@@ -336,7 +336,7 @@ const obj = h.object({
 });
 ```
 
-## h.multiply(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.multiply(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
 const refA = h.reference(h.number([0, 1]));
 const refB = h.reference(h.number([0, 1]));
@@ -348,7 +348,7 @@ const obj = h.object({
 });
 ```
 
-## h.divide(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.divide(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
 const refA = h.reference(h.number([0, 1]));
 const refB = h.reference(h.number([1, 2]));
@@ -360,15 +360,15 @@ const obj = h.object({
 });
 ```
 
-## h.if(Hasard.&lt;Boolean&gt;, Hasard, Hasard) -> Hasard
+#### h.if(Hasard.&lt;Boolean&gt;, Hasard, Hasard) -> Hasard
 
-## h.round(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.round(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 
-## h.floor(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.floor(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 
-## h.ceil(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
+#### h.ceil(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 
-## h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard.&lt;Array&gt;
+#### h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard.&lt;Array&gt;
 
 
 
