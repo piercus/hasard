@@ -30,4 +30,4 @@ randomValue.set({
 	]
 });
 
-console.log(randomObject.run(1));
+console.log(JSON.stringify(randomObject.run(1), null, 2));
