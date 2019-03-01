@@ -355,7 +355,7 @@ test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
 				size: 10
 			})
 		),
-		size : 10
+		size: 10
 	});
 
 	const value = hasard.add(
