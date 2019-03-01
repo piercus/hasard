@@ -378,7 +378,6 @@ test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
 		),
 		(t, a) => {
 			t.is(Object.keys(a).length, 10);
-			console.log(a);
 		}
 	);
 });
