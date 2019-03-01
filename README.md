@@ -48,7 +48,7 @@ console.log(value);
 
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
-```
+```javascript
 const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
 ```
 
