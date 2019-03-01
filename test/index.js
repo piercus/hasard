@@ -5,7 +5,7 @@ const test = require('ava');
 const hasard = require('..');
 
 const testDistribution = function (t, actualHasard, individualExpectation, globalExpectation = null) {
-	const n = 10000;
+	const n = 1000;
 	return actualHasard.runAsync(n).then(res => {
 		t.is(res.length, n);
 		res.forEach(a => {

@@ -17,7 +17,7 @@ const cstrs = {
 
 const shortcuts = {};
 Object.keys(cstrs).forEach(key => {
-	shortcuts[key.toLowerCase()] = cstrs[key].build.bind(cstrs[key]);
+	shortcuts[key.toLowerCase()] = cstrs[key].build.bind(cstrs[key], this);
 });
 
 const helpers = {
@@ -26,7 +26,21 @@ const helpers = {
 	int: shortcuts.integer,
 	num: shortcuts.number,
 	str: shortcuts.string,
-	ref: shortcuts.ref
+	ref: shortcuts.reference
 };
 
-module.exports = Object.assign({}, cstrs, shortcuts, operators, helpers);
+const methods = function (hasardContext) {
+	return Object.assign({}, cstrs, shortcuts, operators(hasardContext), helpers);
+};
+
+class Hasard {
+	constructor(prng = Math.random.bind(Math)) {
+		this.prng = prng;
+		const meths = methods(this);
+		Object.keys(meths).forEach(m => {
+			this[m] = meths[m].bind(this);
+		});
+	}
+}
+
+module.exports = Object.assign(Hasard, methods(null));
