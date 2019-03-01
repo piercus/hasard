@@ -346,6 +346,43 @@ test('hasard.Object(Object)', t => {
 	);
 });
 
+test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
+	const keys = hasard.array({
+		value: hasard.add(
+			new hasard.Value(['+33', '+32', '+1']),
+			new hasard.String({
+				value: new hasard.Value(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
+				size: 10
+			})
+		),
+		size : 10
+	});
+
+	const value = hasard.add(
+		new hasard.Value(['Mr ', 'M ']),
+		new hasard.Value(['Thomas ', 'Nicolas ', 'Julien ', 'Quentin ', 'Maxime ']),
+		new hasard.Value(['DURAND', 'DUBOIS', 'LEFEBVRE', 'MOREAU', 'MOREL', 'FOURNIER'])
+	);
+
+	t.throws(() => {
+		(new hasard.Object(['a', 'a', 'c'], new hasard.Value(['d', 'e', 'f'])));
+	}, 'keys must be unique (keys[1] \'a\' is duplicated)');
+	t.throws(() => {
+		(new hasard.Object(['a', {b: 'b'}], new hasard.Value(['d', 'e', 'f']))).runOnce();
+	}, 'keys must be string array (keys[1] \'[object Object]\' should be a string)');
+
+	return testDistribution(t,
+		new hasard.Object(
+			keys,
+			value
+		),
+		(t, a) => {
+			t.is(Object.keys(a).length, 10);
+			console.log(a);
+		}
+	);
+});
+
 test('hasard.Matrix(Object)', t => {
 	const shapeSize = [1, 4];
 	const shapeValues = [5, 10];

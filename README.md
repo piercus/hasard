@@ -184,6 +184,46 @@ const obj = h.object({
 	color2 : h.value(['black', 'grey'])
 });
 ```
+#### h.object(Hasard.<Array.<String>>, Hasard) -> Hasard.&lt;Object&gt;
+
+```javascript
+const phoneNumber = hasard.array({
+	value: hasard.add(
+		new hasard.Value(['+33', '+32', '+1']),
+		new hasard.String({
+			value: new hasard.Value(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
+			size: 9 // 9 digits in phone numbers
+		})
+	),
+	size : 5 // 5 keys
+});
+
+const fullName = hasard.add(
+	new hasard.Value(['Mr ', 'M ']),
+	new hasard.Value(['Thomas ', 'Nicolas ', 'Julien ', 'Quentin ', 'Maxime ']),
+	new hasard.Value(['DURAND', 'DUBOIS', 'LEFEBVRE', 'MOREAU', 'MOREL', 'FOURNIER'])
+);
+
+const randomPhoneDirectory = h.object(phoneNumber, fullName);
+
+randomPhoneDirectory.run(2) // run 2 times
+//
+// { 
+//   '+33236972292': 'M Julien FOURNIER',
+//   '+1833509762': 'Mr Quentin DURAND',
+//   '+33210149263': 'Mr Maxime MOREAU',
+//   '+1807872258': 'Mr Julien DURAND',
+//   '+32215961607': 'M Julien DUBOIS'
+// }
+// 
+// { 
+//   '+32067043361': 'Mr Nicolas MOREL',
+//   '+33898861064': 'Mr Thomas DURAND',
+//   '+33730685919': 'Mr Nicolas MOREL',
+//   '+33723780566': 'M Nicolas FOURNIER',
+//   '+33515400984': 'Mr Quentin DUBOIS'
+// }
+```
 
 ### h.matrix
 
