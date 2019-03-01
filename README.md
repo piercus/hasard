@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/piercus/hasard.svg?branch=master)](https://travis-ci.com/piercus/hasard)
+[![Build Status](https://travis-ci.com/piercus/hasard.svg?branch=master)](https://travis-ci.com/piercus/hasard)
 
 [![codecov](https://codecov.io/gh/piercus/hasard/branch/master/graph/badge.svg)](https://codecov.io/gh/piercus/hasard)
 
@@ -55,7 +55,6 @@ const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
 ## Basic types
 
 ### h.value
-
 
 #### h.value(Array.&lt;Hasard&gt;)
 
@@ -409,6 +408,3 @@ const obj = h.object({
 #### h.ceil(Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 
 #### h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard.&lt;Array&gt;
-
-
-
