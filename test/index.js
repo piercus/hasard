@@ -435,6 +435,36 @@ test('hasard.Matrix(Object)', t => {
 	);
 });
 
+test('hasard.Matrix({value: Hasard.<Array>})', t => {
+	const opts = {
+		value: new hasard.Array({
+			value: new hasard.Integer([5, 10]),
+			size: 3
+		}),
+		shape: [5, 10]
+	};
+
+	const getShape = function (a) {
+		if (a.length === 0) {
+			return [0];
+		}
+
+		if (Array.isArray(a[0])) {
+			return [a.length].concat(getShape(a[0]));
+		}
+
+		return [a.length];
+	};
+
+	return testDistribution(t,
+		new hasard.Matrix(opts),
+		(t, a) => {
+			const shape = getShape(a);
+			t.is(shape, [5, 10, 3]);
+		}
+	);
+});
+
 test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 	const chars = ['a', 'b', 'c', 'd'];
 	const haz = new hasard.Reference(new hasard.Value(chars));
