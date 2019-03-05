@@ -460,7 +460,7 @@ test('hasard.Matrix({value: Hasard.<Array>})', t => {
 		new hasard.Matrix(opts),
 		(t, a) => {
 			const shape = getShape(a);
-			t.is(shape, [5, 10, 3]);
+			t.deepEqual(shape, [5, 10, 3]);
 		}
 	);
 });
