@@ -107,6 +107,28 @@ test('hasard.Number(Array.<Number>)', t => {
 	);
 });
 
+test('hasard.Number(start, end)', t => {
+	const range = [10, 15];
+	const splits = [10, 11, 12, 13, 14];
+
+	return testDistribution(t,
+		new hasard.Number(range[0], range[1]),
+		(t, a) => {
+			t.is(typeof (a), 'number');
+			t.true(a >= range[0]);
+			t.true(a < range[1]);
+		},
+		(t, as) => {
+			const counts = splits.map(n => as.filter(v => n <= v && v < n + 1).length / as.length);
+			const average = 1 / counts.length;
+			const threshold = 1 / Math.sqrt(as.length);
+			counts.forEach(c => {
+				t.true(Math.abs(c - average) < threshold);
+			});
+		}
+	);
+});
+
 test('hasard.Number(Object)', t => {
 	const uniform = {
 		type: 'uniform',
@@ -179,6 +201,29 @@ test('hasard.Integer([start, end])', t => {
 
 	return testDistribution(t,
 		new hasard.Integer(range),
+		(t, a) => {
+			t.is(typeof (a), 'number');
+			t.is(a, Math.floor(a));
+			t.true(a >= range[0]);
+			t.true(a <= range[1]);
+		},
+		(t, as) => {
+			const values = new Array(range[1] - range[0] + 1).fill(1).map((_, i) => i + range[0]);
+			const counts = values.map(n => as.filter(v => v === n).length / as.length);
+			const average = 1 / values.length;
+			const threshold = 1 / Math.sqrt(as.length);
+			counts.forEach(c => {
+				t.true(Math.abs(c - average) < threshold);
+			});
+		}
+	);
+});
+
+test('hasard.Integer(start, end)', t => {
+	const range = [10, 15];
+
+	return testDistribution(t,
+		new hasard.Integer(range[0], range[1]),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.is(a, Math.floor(a));
