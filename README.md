@@ -442,7 +442,10 @@ const int = h.ceil(h.number(0, 10));
 ```javascript
 const int = h.concat([1,2], h.array({value: h.integer([0, 10]), size: 3}));
 ```
-
+#### h.getProperty(Hasard.&lt;Number&gt;, Hasard.&lt;Object&gt; | Hasard.&lt;Array&gt;) -> Hasard
+```javascript
+const int = h.getProperty(0, h.array({value: h.integer([0, 10]), size: 3}));
+```
 ## Nested randomness
 
 Using `set` method, object properties can be set afterward
