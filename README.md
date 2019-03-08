@@ -24,6 +24,7 @@ Features:
 * Easy-to-use common operators on random variable (add, substract, divide, multiply, round, ceil, floor)
 * Create custom operators
 * Change the Pseudorandom number generator
+* Stream API
 
 ## Simple Usage
 
@@ -484,4 +485,21 @@ randomValue.set({
 });
 
 console.log(randomObject.run(1));
+```
+
+## Stream API
+
+```javascript
+const h = require('hasard');
+
+const v = h.object({
+	color: h.value(['white', 'yellow']), // randomly choose between 2 values
+	size: h.integer(10, 20) // randomly choose an integer between 10 and 20
+});
+
+const streamValue = v.stream(3);
+
+streamValue.on('data', d => {
+	console.log(d);
+})
 ```
