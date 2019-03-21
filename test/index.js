@@ -177,7 +177,33 @@ test('hasard.Number(Object)', t => {
 				t.true(Math.abs(variance - (normal.std * normal.std)) < threshold);
 			}
 		);
-	});
+	})
+		.then(() => {
+			const mean = -2;
+			const std = 3;
+			const truncatedNormal = {
+				type: 'truncated-normal',
+				mean,
+				std
+			};
+
+			return testDistribution(t,
+				new hasard.Number(truncatedNormal),
+				(t, a) => {
+					t.is(typeof (a), 'number');
+					t.true(a >= mean - (2 * std));
+					t.true(a < mean + (2 * std));
+				},
+				(t, as) => {
+					const sum = as.reduce((a, b) => a + b, 0);
+					const average = sum / as.length;
+					const variance = as.map(a => (a - average) * (a - average)).reduce((a, b) => a + b, 0) / as.length;
+					const threshold = 100 / Math.sqrt(as.length);
+					t.true(Math.abs(truncatedNormal.mean - average) < threshold);
+					t.true(Math.abs(variance - (truncatedNormal.std * truncatedNormal.std)) < threshold);
+				}
+			);
+		});
 });
 
 test('hasard.Integer([start, end])', t => {

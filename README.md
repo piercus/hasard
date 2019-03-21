@@ -19,7 +19,7 @@ Inspired by :
 Features: 
 * Generate basic types randomly (string, number, boolean, integer)
 * Nested random object (array, object, matrix)
-* Use distribution to generate numbers (normal, uniform) and integers (poisson, uniform)
+* Use distribution to generate numbers (normal, uniform, truncated-normal) and integers (poisson, uniform)
 * Add reference + context to fix a random variable value in a local context
 * Easy-to-use common operators on random variable (add, substract, divide, multiply, round, ceil, floor)
 * Create custom operators
@@ -102,7 +102,8 @@ const v = h.number([0, 1]);
 Available distribution for numbers are 
 * **normal**
 * **uniform** 
-
+* **truncated-normal**
+ 
 Please [Open an issue](https://github.com/piercus/hasard/issues/new) if you need another distribution
 
 ```javascript
