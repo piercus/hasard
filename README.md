@@ -24,6 +24,7 @@ Features:
 * Easy-to-use common operators on random variable (add, substract, divide, multiply, round, ceil, floor)
 * Create custom operators
 * Change the Pseudorandom number generator
+* Stream API
 
 ## Simple Usage
 
@@ -32,7 +33,7 @@ const h = require('hasard');
 
 const v = h.object({
 	color: h.value(['white', 'yellow']), // randomly choose between 2 values
-	size: h.integer([10, 20]) // randomly choose an integer between 10 and 20
+	size: h.integer(10, 20) // randomly choose an integer between 10 and 20
 });
 
 const values = v.run(3);
@@ -85,6 +86,12 @@ const v = h.boolean({prob: 0.3}); // will be true 30% of the time
 
 ### h.number
 
+#### h.number({Hasard.&lt;Number&gt;} start, {Hasard.&lt;Number&gt;} end) -> Hasard.&lt;Number&gt;
+
+```javascript
+const v = h.number(0, 1);
+```
+
 #### h.number([{Hasard.&lt;Number&gt;} start, {Hasard.&lt;Number&gt;} end]) -> Hasard.&lt;Number&gt;
 
 ```javascript
@@ -102,7 +109,7 @@ Please [Open an issue](https://github.com/piercus/hasard/issues/new) if you need
 const v = h.number({
 	type: 'uniform',
 	start: 0,
-	end: 1,
+	end: 1
 });
 ```
 
@@ -115,6 +122,12 @@ const v = h.number({
 ```
 
 ### h.integer
+
+#### h.integer({Hasard.&lt;Integer&gt;} start,{Hasard.&lt;Integer&gt;} end) -> Hasard.&lt;Integer&gt;
+
+```javascript
+const v = h.integer(0, 10);
+```
 
 #### h.integer([{Hasard.&lt;Integer&gt;} start,{Hasard.&lt;Integer&gt;} end]) -> Hasard.&lt;Integer&gt;
 
@@ -334,8 +347,8 @@ h.isHasard([0, 255]); // false
 Example of use
 
 ```javascript
-const refA = h.reference(h.number([0, 1]));
-const refB = h.reference(h.number([0, 1]));
+const refA = h.reference(h.number(0, 1));
+const refB = h.reference(h.number(0, 1));
 
 const addHasard = h.fn((a, b) =&gt; {
 	return a + b;
@@ -353,8 +366,8 @@ Hasard provides shortcuts for most common operations
 
 #### h.add(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;, ...) -> Hasard.&lt;Number&gt;
 ```javascript
-const refA = h.reference(h.number([0, 1]));
-const refB = h.reference(h.number([0, 1]));
+const refA = h.reference(h.number(0, 1));
+const refB = h.reference(h.number(0, 1));
 
 const obj = h.object({
 	a: refA,
@@ -373,8 +386,8 @@ h.add(a, b).run(2)
 
 #### h.substract(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
-const refA = h.reference(h.number([0, 1]));
-const refB = h.reference(h.number([0, 1]));
+const refA = h.reference(h.number(0, 1));
+const refB = h.reference(h.number(0, 1));
 
 const obj = h.object({
 	a: refA,
@@ -385,8 +398,8 @@ const obj = h.object({
 
 #### h.multiply(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
-const refA = h.reference(h.number([0, 1]));
-const refB = h.reference(h.number([0, 1]));
+const refA = h.reference(h.number(0, 1));
+const refB = h.reference(h.number(0, 1));
 
 const obj = h.object({
 	a: refA,
@@ -397,8 +410,8 @@ const obj = h.object({
 
 #### h.divide(Hasard.&lt;Number&gt;, Hasard.&lt;Number&gt;) -> Hasard.&lt;Number&gt;
 ```javascript
-const refA = h.reference(h.number([0, 1]));
-const refB = h.reference(h.number([1, 2]));
+const refA = h.reference(h.number(0, 1));
+const refB = h.reference(h.number(1, 2));
 
 const obj = h.object({
 	a: refA,
@@ -416,21 +429,24 @@ const signedPoisson = h.multiply(h.if(test, -1, 1), poisson)
 ```
 #### h.round(Hasard.&lt;Number&gt;) -> Hasard.&lt;Integer&gt;
 ```javascript
-const int = h.round(h.number([0, 10]));
+const int = h.round(h.number(0, 10));
 ```
 #### h.floor(Hasard.&lt;Number&gt;) -> Hasard.&lt;Integer&gt;
 ```javascript
-const int = h.floor(h.number([0, 10]));
+const int = h.floor(h.number(0, 10));
 ```
 #### h.ceil(Hasard.&lt;Number&gt;) -> Hasard.&lt;Integer&gt;
 ```javascript
-const int = h.ceil(h.number([0, 10]));
+const int = h.ceil(h.number(0, 10));
 ```
 #### h.concat(Hasard.&lt;Array&gt;, Hasard.&lt;Array&gt;) -> Hasard.&lt;Array&gt;
 ```javascript
 const int = h.concat([1,2], h.array({value: h.integer([0, 10]), size: 3}));
 ```
-
+#### h.getProperty(Hasard.&lt;Number&gt;, Hasard.&lt;Object&gt; | Hasard.&lt;Array&gt;) -> Hasard
+```javascript
+const int = h.getProperty(0, h.array({value: h.integer([0, 10]), size: 3}));
+```
 ## Nested randomness
 
 Using `set` method, object properties can be set afterward
@@ -447,7 +463,7 @@ const randomString = h.string({
 	value: h.value('abcdefghijklmnopkrstuvw'.split(''))
 });
 
-const randomNumber = h.number([0, 100]);
+const randomNumber = h.number(0, 100);
 
 const randomKeys = h.array({
 	size: randomInteger,
@@ -469,4 +485,21 @@ randomValue.set({
 });
 
 console.log(randomObject.run(1));
+```
+
+## Stream API
+
+```javascript
+const h = require('hasard');
+
+const v = h.object({
+	color: h.value(['white', 'yellow']), // randomly choose between 2 values
+	size: h.integer(10, 20) // randomly choose an integer between 10 and 20
+});
+
+const streamValue = v.stream(3);
+
+streamValue.on('data', d => {
+	console.log(d);
+})
 ```
