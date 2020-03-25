@@ -57,12 +57,12 @@ const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
 
 ### h.value
 
-#### h.value(Array.&lt;Hasard&gt;)
+#### h.value(Array.&lt;Hasard&gt; | Hasard.&lt;Array&gt;)
 
 ```javascript
 const v = h.value(['white', 'yellow']);
 ```
-#### h.value({choices, weights}) -> Hasard
+#### h.value({choices: Array.&lt;Hasard&gt; | Hasard.&lt;Array&gt;, weights}) -> Hasard
 
 ```javascript
 const v = h.value({
