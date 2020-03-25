@@ -18,8 +18,8 @@ test('Avoid duplication of randomly selected value (#3)', t => {
 	});
 
 	const differentValues = hasard.array([
-	  ref1,
-	  hasard.value(antiChoicesFn(ref1))
+		ref1,
+		hasard.value(antiChoicesFn(ref1))
 	]);
 
 	return testDistribution(t,
