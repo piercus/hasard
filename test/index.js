@@ -4,7 +4,7 @@ const test = require('ava');
 
 const hasard = require('..');
 
-const testDistribution = require('./helpers/test-distribution')
+const testDistribution = require('./helpers/test-distribution');
 
 test('hasard.Value(Array.<Any>)', t => {
 	const values = ['white', 'yellow'];
