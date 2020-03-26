@@ -1,10 +1,8 @@
 /* eslint no-new: "off" */
 /* eslint ava/prefer-async-await: "off" */
 const test = require('ava');
-
-const hasard = require('..');
-
 const testDistribution = require('./helpers/test-distribution');
+const hasard = require('..');
 
 test('Avoid duplication of randomly selected value (#3)', t => {
 	const choices = ['a', 'b', 'c'];
