@@ -12,13 +12,13 @@ const cstrs = {
 	String: require('./lib/hasard/string'),
 	Boolean: require('./lib/hasard/boolean'),
 	Reference: require('./lib/hasard/reference'),
-	Function
+	Function,
 };
 
 const shortcuts = {};
-Object.keys(cstrs).forEach(key => {
+for (const key of Object.keys(cstrs)) {
 	shortcuts[key.toLowerCase()] = cstrs[key].build.bind(cstrs[key], this);
-});
+}
 
 const helpers = {
 	isHasard: Abstract.isHasard,
@@ -26,7 +26,7 @@ const helpers = {
 	int: shortcuts.integer,
 	num: shortcuts.number,
 	str: shortcuts.string,
-	ref: shortcuts.reference
+	ref: shortcuts.reference,
 };
 
 const methods = function (hasardContext) {
@@ -37,9 +37,9 @@ class Hasard {
 	constructor(prng = Math.random.bind(Math)) {
 		this.prng = prng;
 		const meths = methods(this);
-		Object.keys(meths).forEach(m => {
+		for (const m of Object.keys(meths)) {
 			this[m] = meths[m].bind(this);
-		});
+		}
 	}
 }
 

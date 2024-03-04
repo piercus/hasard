@@ -252,7 +252,7 @@ const streets = [
 	' Briarwood Drive',
 	' 2nd Avenue',
 	' Park Place',
-	' Taylor Street'
+	' Taylor Street',
 ];
 
 const cityState = ['Warner, NH',
@@ -315,18 +315,10 @@ const domainName = h.reference(h.value(domains));
 const location = h.reference(h.value(cityState));
 const street = h.reference(h.value(streets));
 
-const eMail = h.fn((a, b, c) => {
-	return a + '.' + b + '@invalid' + c;
-});
-const preferredName = h.fn((a, b) => {
-	return a + '_' + b;
-});
-const locality = h.fn(a => {
-	return (a.split(',')[0].trim());
-});
-const region = h.fn(a => {
-	return (a.split(',')[1].trim());
-});
+const eMail = h.fn((a, b, c) => a + '.' + b + '@invalid' + c);
+const preferredName = h.fn((a, b) => a + '_' + b);
+const locality = h.fn(a => (a.split(',')[0].trim()));
+const region = h.fn(a => (a.split(',')[1].trim()));
 
 // User object
 /* eslint camelcase: ["error", {properties: "never"}] */
@@ -335,9 +327,9 @@ const user = h.object({
 	family_name: lastName,
 	email: eMail(firstName, lastName, domainName),
 	preferred_username: preferredName(firstName, lastName),
-	street: h.add(h.integer(100, 65535), street),
+	street: h.add(h.integer(100, 65_535), street),
 	locality: locality(location),
-	region: region(location)
+	region: region(location),
 });
 
 // Generate 10 random users and print to console
