@@ -1,4 +1,4 @@
-const h = require('..');
+const h = require('../index.js');
 
 const randomValue = h.value();
 
@@ -6,19 +6,19 @@ const randomInteger = h.integer({type: 'poisson', lambda: 4});
 
 const randomString = h.string({
 	size: h.add(randomInteger, 5),
-	value: h.value('abcdefghijklmnopkrstuvw'.split(''))
+	value: h.value('abcdefghijklmnopkrstuvw'.split('')),
 });
 
 const randomNumber = h.number([0, 100]);
 
 const randomKeys = h.array({
 	size: randomInteger,
-	value: randomString
+	value: randomString,
 });
 
 const randomObject = h.object(
 	randomKeys,
-	randomValue
+	randomValue,
 );
 
 randomValue.set({
@@ -26,8 +26,8 @@ randomValue.set({
 		randomString,
 		randomObject,
 		randomNumber,
-		randomInteger
-	]
+		randomInteger,
+	],
 });
 
 console.log(JSON.stringify(randomObject.run(1), null, 2));
