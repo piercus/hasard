@@ -1,14 +1,14 @@
 /* eslint no-new: "off" */
 /* eslint ava/prefer-async-await: "off" */
-const test = require('ava');
-const hasard = require('..');
-const testDistribution = require('./helpers/test-distribution');
+import test from 'ava';
+import { Value, Boolean, Number, Integer, String, Array as _Array, Object as _Object, array, add, Matrix, Reference, fn } from '..';
+import testDistribution from './helpers/test-distribution';
 
 test('hasard.Value(Array.<Any>)', t => {
 	const values = ['white', 'yellow'];
 
 	return testDistribution(t,
-		new hasard.Value(values),
+		new Value(values),
 		(t, a) => {
 			t.not(values.indexOf(a), -1);
 		},
@@ -27,7 +27,7 @@ test('hasard.Boolean(Number)', t => {
 	const p = 0.2;
 
 	return testDistribution(t,
-		new hasard.Boolean(p),
+		new Boolean(p),
 		(t, a) => {
 			t.is(typeof (a), 'boolean');
 		},
@@ -49,7 +49,7 @@ test('hasard.Value(Object)', t => {
 	};
 
 	return testDistribution(t,
-		new hasard.Value(options),
+		new Value(options),
 		(t, a) => {
 			t.not(options.choices.indexOf(a), -1);
 		},
@@ -66,18 +66,18 @@ test('hasard.Value(Object)', t => {
 
 test('hasard.Number(Array.<Number>)', t => {
 	t.throws(() => {
-		new hasard.Number([1]);
+		new Number([1]);
 	}, {instanceOf: TypeError, message: 'invalid array, range array length must be 2'});
 
 	t.throws(() => {
-		new hasard.Number([0, 1, 2]);
+		new Number([0, 1, 2]);
 	}, {instanceOf: TypeError, message: 'invalid array, range array length must be 2'});
 
 	const range = [10, 15];
 	const splits = [10, 11, 12, 13, 14];
 
 	return testDistribution(t,
-		new hasard.Number(range),
+		new Number(range),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= range[0]);
@@ -99,7 +99,7 @@ test('hasard.Number(start, end)', t => {
 	const splits = [10, 11, 12, 13, 14];
 
 	return testDistribution(t,
-		new hasard.Number(range[0], range[1]),
+		new Number(range[0], range[1]),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= range[0]);
@@ -124,7 +124,7 @@ test('hasard.Number(Object)', t => {
 	};
 
 	return testDistribution(t,
-		new hasard.Number(uniform),
+		new Number(uniform),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= uniform.start);
@@ -149,7 +149,7 @@ test('hasard.Number(Object)', t => {
 		};
 
 		return testDistribution(t,
-			new hasard.Number(normal),
+			new Number(normal),
 			(t, a) => {
 				t.is(typeof (a), 'number');
 			},
@@ -173,7 +173,7 @@ test('hasard.Number(Object)', t => {
 			};
 
 			return testDistribution(t,
-				new hasard.Number(truncatedNormal),
+				new Number(truncatedNormal),
 				(t, a) => {
 					t.is(typeof (a), 'number');
 					t.true(a >= mean - (2 * std));
@@ -193,25 +193,25 @@ test('hasard.Number(Object)', t => {
 
 test('hasard.Integer([start, end])', t => {
 	t.throws(() => {
-		new hasard.Integer([1]);
+		new Integer([1]);
 	},  {instanceOf: Error, message: '1 must be a length-2 array'});
 
 	t.throws(() => {
-		new hasard.Integer([0, 1, 2]);
+		new Integer([0, 1, 2]);
 	},  {instanceOf: Error, message: '0,1,2 must be a length-2 array'});
 
 	t.throws(() => {
-		new hasard.Integer([0.1, 3]);
+		new Integer([0.1, 3]);
 	},  {instanceOf: Error, message: 'start (0.1) must be an integer'});
 
 	t.throws(() => {
-		new hasard.Integer([0, 3.1]);
+		new Integer([0, 3.1]);
 	},  {instanceOf: Error, message: 'end (3.1) must be an integer'});
 
 	const range = [10, 15];
 
 	return testDistribution(t,
-		new hasard.Integer(range),
+		new Integer(range),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.is(a, Math.floor(a));
@@ -234,7 +234,7 @@ test('hasard.Integer(start, end)', t => {
 	const range = [10, 15];
 
 	return testDistribution(t,
-		new hasard.Integer(range[0], range[1]),
+		new Integer(range[0], range[1]),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.is(a, Math.floor(a));
@@ -260,7 +260,7 @@ test('hasard.Integer({type, ...})', t => {
 	};
 
 	return testDistribution(t,
-		new hasard.Integer(poisson),
+		new Integer(poisson),
 		(t, a) => {
 			t.is(typeof (a), 'number');
 			t.true(a >= 0);
@@ -277,11 +277,11 @@ test('hasard.Integer({type, ...})', t => {
 test('hasard.String({value, size})', t => {
 	const range = [5, 10];
 	const chars = ['a', 'b', 'c', 'd'];
-	const value = new hasard.Value(chars);
-	const size = new hasard.Integer(range);
+	const value = new Value(chars);
+	const size = new Integer(range);
 
 	return testDistribution(t,
-		new hasard.String({value, size}),
+		new String({value, size}),
 		(t, a) => {
 			t.is(typeof (a), 'string');
 			t.true(a.length >= range[0]);
@@ -296,11 +296,11 @@ test('hasard.String({value, size})', t => {
 test('hasard.Array({value, size})', t => {
 	const range = [5, 10];
 	const chars = ['a', 'b', 'c', 'd'];
-	const value = new hasard.Value(chars);
-	const size = new hasard.Integer(range);
+	const value = new Value(chars);
+	const size = new Integer(range);
 
 	return testDistribution(t,
-		new hasard.Array({value, size}),
+		new _Array({value, size}),
 		(t, a) => {
 			t.is(typeof (a), 'object');
 			t.true(a.length >= range[0]);
@@ -314,11 +314,11 @@ test('hasard.Array({value, size})', t => {
 
 test('hasard.Array(<Array.<Hasard>>)', t => {
 	const chars = ['a', 'b', 'c', 'd'];
-	const haz = new hasard.Value(chars);
+	const haz = new Value(chars);
 	const values = [haz, haz, haz];
 
 	return testDistribution(t,
-		new hasard.Array(values),
+		new _Array(values),
 		(t, a) => {
 			t.is(typeof (a), 'object');
 			t.is(a.length, 3);
@@ -336,10 +336,10 @@ test('hasard.Array(<Array.<Hasard>>)', t => {
 test('hasard.Array({values, randomOrder})', t => {
 	const string = 'abcdefghijklmnopqrstuvwxyz';
 	const values = string.split('');
-	const shuffle = new hasard.Boolean();
+	const shuffle = new Boolean();
 
 	return testDistribution(t,
-		new hasard.Array({values, shuffle}),
+		new _Array({values, shuffle}),
 		(t, a) => {
 			t.is(a.length, 26);
 		},
@@ -357,11 +357,11 @@ test('hasard.Array({values, size})', t => {
 	const size = 15;
 
 	t.throws(() => {
-		(new hasard.Array({values, size: 32})).runOnce();
+		(new _Array({values, size: 32})).runOnce();
 	}, {instanceOf: Error, message: 'Cannot pick 32 elements in 26-size array'});
 
 	return testDistribution(t,
-		new hasard.Array({values, size}),
+		new _Array({values, size}),
 		(t, a) => {
 			t.is(typeof (a), 'object');
 			t.is(a.length, size);
@@ -386,11 +386,11 @@ test('hasard.Object(Object)', t => {
 	const options = {};
 
 	for (const k of Object.keys(keys)) {
-		options[k] = new hasard.Value(keys[k]);
+		options[k] = new Value(keys[k]);
 	}
 
 	return testDistribution(t,
-		new hasard.Object(options),
+		new _Object(options),
 		(t, a) => {
 			for (const k of Object.keys(keys)) {
 				t.not(keys[k].indexOf(a[k]), -1);
@@ -400,33 +400,33 @@ test('hasard.Object(Object)', t => {
 });
 
 test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
-	const keys = hasard.array({
-		value: hasard.add(
-			new hasard.Value(['+33', '+32', '+1']),
-			new hasard.String({
-				value: new hasard.Value(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
+	const keys = array({
+		value: add(
+			new Value(['+33', '+32', '+1']),
+			new String({
+				value: new Value(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
 				size: 10,
 			}),
 		),
 		size: 10,
 	});
 
-	const value = hasard.add(
-		new hasard.Value(['Mr ', 'M ']),
-		new hasard.Value(['Thomas ', 'Nicolas ', 'Julien ', 'Quentin ', 'Maxime ']),
-		new hasard.Value(['DURAND', 'DUBOIS', 'LEFEBVRE', 'MOREAU', 'MOREL', 'FOURNIER']),
+	const value = add(
+		new Value(['Mr ', 'M ']),
+		new Value(['Thomas ', 'Nicolas ', 'Julien ', 'Quentin ', 'Maxime ']),
+		new Value(['DURAND', 'DUBOIS', 'LEFEBVRE', 'MOREAU', 'MOREL', 'FOURNIER']),
 	);
 
 	t.throws(() => {
-		(new hasard.Object(['a', 'a', 'c'], new hasard.Value(['d', 'e', 'f'])));
+		(new _Object(['a', 'a', 'c'], new Value(['d', 'e', 'f'])));
 	}, 
 	{instanceOf: TypeError, message: 'keys must be unique (keys[1] \'a\' is duplicated)'});
 	t.throws(() => {
-		(new hasard.Object(['a', {b: 'b'}], new hasard.Value(['d', 'e', 'f']))).runOnce();
+		(new _Object(['a', {b: 'b'}], new Value(['d', 'e', 'f']))).runOnce();
 	}, {instanceOf: TypeError, message: 'keys must be string array (keys[1] \'[object Object]\' should be a string)'});
 
 	return testDistribution(t,
-		new hasard.Object(
+		new _Object(
 			keys,
 			value,
 		),
@@ -442,10 +442,10 @@ test('hasard.Matrix(Object)', t => {
 	const values = [0, 255];
 
 	const options = {
-		value: new hasard.Integer(values),
-		shape: new hasard.Array({
-			value: new hasard.Integer(shapeValues),
-			size: new hasard.Integer(shapeSize),
+		value: new Integer(values),
+		shape: new _Array({
+			value: new Integer(shapeValues),
+			size: new Integer(shapeSize),
 		}),
 	};
 
@@ -474,7 +474,7 @@ test('hasard.Matrix(Object)', t => {
 	};
 
 	return testDistribution(t,
-		new hasard.Matrix(options),
+		new Matrix(options),
 		(t, a) => {
 			t.true(Array.isArray(a));
 			testSameSize(a, t);
@@ -491,8 +491,8 @@ test('hasard.Matrix(Object)', t => {
 
 test('hasard.Matrix({value: Hasard.<Array>})', t => {
 	const options = {
-		value: new hasard.Array({
-			value: new hasard.Integer([5, 10]),
+		value: new _Array({
+			value: new Integer([5, 10]),
 			size: 3,
 		}),
 		shape: [5, 10],
@@ -511,7 +511,7 @@ test('hasard.Matrix({value: Hasard.<Array>})', t => {
 	};
 
 	return testDistribution(t,
-		new hasard.Matrix(options),
+		new Matrix(options),
 		(t, a) => {
 			const shape = getShape(a);
 			t.deepEqual(shape, [5, 10, 3]);
@@ -521,11 +521,11 @@ test('hasard.Matrix({value: Hasard.<Array>})', t => {
 
 test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 	const chars = ['a', 'b', 'c', 'd'];
-	const haz = new hasard.Reference(new hasard.Value(chars));
+	const haz = new Reference(new Value(chars));
 	const values = [haz, haz, haz];
 
 	return testDistribution(t,
-		new hasard.Array(values),
+		new _Array(values),
 		(t, a) => {
 			t.is(typeof (a), 'object');
 			t.is(a.length, 3);
@@ -544,10 +544,10 @@ test('hasard.Reference(<Hasard>) with hasard.Array(<Array>)', t => {
 });
 
 test('hasard.Reference(<Hasard>) with context and contextName', t => {
-	const int = new hasard.Integer([0, 255]);
-	const reference = new hasard.Reference({source: int, context: 'color'});
+	const int = new Integer([0, 255]);
+	const reference = new Reference({source: int, context: 'color'});
 
-	const color = new hasard.Array({
+	const color = new _Array({
 		values: [
 			reference,
 			reference,
@@ -556,7 +556,7 @@ test('hasard.Reference(<Hasard>) with context and contextName', t => {
 		contextName: 'color',
 	});
 	const size = 10;
-	const colors = new hasard.Array({
+	const colors = new _Array({
 		value: color,
 		size,
 	});
@@ -577,12 +577,12 @@ test('hasard.Reference(<Hasard>) with context and contextName', t => {
 });
 
 test('hasard.fn(Function)', t => {
-	const referenceA = new hasard.Reference(new hasard.Number([0, 1]));
-	const referenceB = new hasard.Reference(new hasard.Number([0, 1]));
+	const referenceA = new Reference(new Number([0, 1]));
+	const referenceB = new Reference(new Number([0, 1]));
 
-	const addHasard = hasard.fn((a, b) => a + b);
+	const addHasard = fn((a, b) => a + b);
 
-	const object = new hasard.Object({
+	const object = new _Object({
 		a: referenceA,
 		b: referenceB,
 		sum: addHasard(referenceA, referenceB),

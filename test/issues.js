@@ -1,23 +1,23 @@
 /* eslint no-new: "off" */
 /* eslint ava/prefer-async-await: "off" */
-const test = require('ava');
-const hasard = require('..');
-const testDistribution = require('./helpers/test-distribution');
+import test from 'ava';
+import { value, reference, fn, array, integer } from '..';
+import testDistribution from './helpers/test-distribution';
 
 test('Avoid duplication of randomly selected value (#3)', t => {
 	const choices = ['a', 'b', 'c'];
-	const random1 = hasard.value(choices);
-	const reference1 = hasard.reference(random1);
+	const random1 = value(choices);
+	const reference1 = reference(random1);
 
-	const antiChoicesFunction = hasard.fn(a => {
+	const antiChoicesFunction = fn(a => {
 		const index = choices.indexOf(a);
 		const remaining = choices.slice(0, index).concat(choices.slice(index + 1));
 		return remaining;
 	});
 
-	const differentValues = hasard.array([
+	const differentValues = array([
 		reference1,
-		hasard.value(antiChoicesFunction(reference1)),
+		value(antiChoicesFunction(reference1)),
 	]);
 
 	return testDistribution(t,
@@ -31,9 +31,9 @@ test('Avoid duplication of randomly selected value (#3)', t => {
 test('hasard.Array({values, size: h.integer}) (#8)', t => {
 	const string = 'abcdefghijklmnopqrstuvwxyz';
 	const values = string.split('');
-	const v = hasard.array({
+	const v = array({
 		values,
-		size: hasard.integer(0, 3),
+		size: integer(0, 3),
 	});
 	return testDistribution(t,
 		v,
