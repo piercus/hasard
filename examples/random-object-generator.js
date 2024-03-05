@@ -1,4 +1,4 @@
-import * as h from '../index.js';
+import h from '../index.js';
 
 const randomValue = h.value();
 
