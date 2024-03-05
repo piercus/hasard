@@ -1,4 +1,4 @@
-module.exports = function (t, actualHasard, individualExpectation, globalExpectation = null) {
+export default function testDistribution(t, actualHasard, individualExpectation, globalExpectation = null) {
 	const n = 1000;
 	return actualHasard.runAsync(n).then(result => {
 		t.is(result.length, n);
@@ -10,4 +10,4 @@ module.exports = function (t, actualHasard, individualExpectation, globalExpecta
 			globalExpectation(t, result);
 		}
 	});
-};
+}

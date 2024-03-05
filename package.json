@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Random variables and random nested objects manipulation in javascript",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "xo",
     "fmt": "xo --fix",
@@ -62,7 +63,6 @@
       "unicorn/no-new-array": 0,
       "unicorn/prevent-abbreviations": 0,
       "logical-assignment-operators": 0,
-      "unicorn/prefer-module": 0,
       "import/extensions": 0
     }
   }

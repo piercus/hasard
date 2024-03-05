@@ -1,8 +1,10 @@
 /* eslint no-new: "off" */
 /* eslint ava/prefer-async-await: "off" */
 import test from 'ava';
-import { Value, Boolean, Number, Integer, String, Array as _Array, Object as _Object, array, add, Matrix, Reference, fn } from '..';
-import testDistribution from './helpers/test-distribution';
+import h, {
+	Value, Boolean, Number, Integer, String, Array as _Array, add, Matrix, Reference, fn,
+} from '../index.js';
+import testDistribution from './helpers/test-distribution.js';
 
 test('hasard.Value(Array.<Any>)', t => {
 	const values = ['white', 'yellow'];
@@ -17,7 +19,7 @@ test('hasard.Value(Array.<Any>)', t => {
 			const average = 1 / values.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold);
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly L 22
 			}
 		},
 	);
@@ -138,7 +140,7 @@ test('hasard.Number(Object)', t => {
 			const average = 1 / counts.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly L143
 			}
 		},
 	).then(() => {
@@ -194,19 +196,19 @@ test('hasard.Number(Object)', t => {
 test('hasard.Integer([start, end])', t => {
 	t.throws(() => {
 		new Integer([1]);
-	},  {instanceOf: Error, message: '1 must be a length-2 array'});
+	}, {instanceOf: Error, message: '1 must be a length-2 array'});
 
 	t.throws(() => {
 		new Integer([0, 1, 2]);
-	},  {instanceOf: Error, message: '0,1,2 must be a length-2 array'});
+	}, {instanceOf: Error, message: '0,1,2 must be a length-2 array'});
 
 	t.throws(() => {
 		new Integer([0.1, 3]);
-	},  {instanceOf: Error, message: 'start (0.1) must be an integer'});
+	}, {instanceOf: Error, message: 'start (0.1) must be an integer'});
 
 	t.throws(() => {
 		new Integer([0, 3.1]);
-	},  {instanceOf: Error, message: 'end (3.1) must be an integer'});
+	}, {instanceOf: Error, message: 'end (3.1) must be an integer'});
 
 	const range = [10, 15];
 
@@ -224,7 +226,7 @@ test('hasard.Integer([start, end])', t => {
 			const average = 1 / values.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly L 229
 			}
 		},
 	);
@@ -247,7 +249,7 @@ test('hasard.Integer(start, end)', t => {
 			const average = 1 / values.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold);
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly L 252
 			}
 		},
 	);
@@ -390,7 +392,7 @@ test('hasard.Object(Object)', t => {
 	}
 
 	return testDistribution(t,
-		new _Object(options),
+		new h.Object(options),
 		(t, a) => {
 			for (const k of Object.keys(keys)) {
 				t.not(keys[k].indexOf(a[k]), -1);
@@ -400,7 +402,7 @@ test('hasard.Object(Object)', t => {
 });
 
 test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
-	const keys = array({
+	const keys = h.array({
 		value: add(
 			new Value(['+33', '+32', '+1']),
 			new String({
@@ -418,15 +420,15 @@ test('hasard.Object(Hasard.<Array.<String>>, Hasard)', t => {
 	);
 
 	t.throws(() => {
-		(new _Object(['a', 'a', 'c'], new Value(['d', 'e', 'f'])));
-	}, 
+		(new h.Object(['a', 'a', 'c'], new Value(['d', 'e', 'f'])));
+	},
 	{instanceOf: TypeError, message: 'keys must be unique (keys[1] \'a\' is duplicated)'});
 	t.throws(() => {
-		(new _Object(['a', {b: 'b'}], new Value(['d', 'e', 'f']))).runOnce();
+		(new h.Object(['a', {b: 'b'}], new Value(['d', 'e', 'f']))).runOnce();
 	}, {instanceOf: TypeError, message: 'keys must be string array (keys[1] \'[object Object]\' should be a string)'});
 
 	return testDistribution(t,
-		new _Object(
+		new h.Object(
 			keys,
 			value,
 		),
@@ -582,7 +584,7 @@ test('hasard.fn(Function)', t => {
 
 	const addHasard = fn((a, b) => a + b);
 
-	const object = new _Object({
+	const object = new h.Object({
 		a: referenceA,
 		b: referenceB,
 		sum: addHasard(referenceA, referenceB),

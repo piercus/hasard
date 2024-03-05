@@ -1,4 +1,4 @@
-const h = require('../index.js');
+import * as h from '../index.js';
 
 const givenNames = ['Veronica',
 	'Mercedes',
