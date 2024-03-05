@@ -52,6 +52,7 @@
   "homepage": "https://github.com/piercus/hasard#readme",
   "devDependencies": {
     "ava": "^1.2.1",
+    "nyc": "^15.1.0",
     "semantic-release": "^15.13.3",
     "xo": "^0.24.0"
   }

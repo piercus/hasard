@@ -1,8 +1,8 @@
 /* eslint no-new: "off" */
 /* eslint ava/prefer-async-await: "off" */
 const test = require('ava');
-const testDistribution = require('./helpers/test-distribution');
 const hasard = require('..');
+const testDistribution = require('./helpers/test-distribution');
 
 test('hasard.Value(Array.<Any>)', t => {
 	const values = ['white', 'yellow'];
