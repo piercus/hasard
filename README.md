@@ -50,7 +50,7 @@ console.log(value);
 You can customize the [Pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) which is `Math.random` by default.
 
 ```javascript
-const n = h.value({choices: ['white', 'yellow'], prng: &lt;custom prng&gt;})
+const n = h.value({choices: ['white', 'yellow'], prng: <custom prng>})
 ```
 
 ## Basic types
@@ -351,7 +351,7 @@ Example of use
 const refA = h.reference(h.number(0, 1));
 const refB = h.reference(h.number(0, 1));
 
-const addHasard = h.fn((a, b) =&gt; {
+const addHasard = h.fn((a, b) => {
 	return a + b;
 });
 
