@@ -62,8 +62,7 @@
     "rules": {
       "unicorn/no-new-array": 0,
       "unicorn/prevent-abbreviations": 0,
-      "logical-assignment-operators": 0,
-      "import/extensions": 0
+      "logical-assignment-operators": 0
     }
   }
 }
