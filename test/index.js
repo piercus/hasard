@@ -138,7 +138,7 @@ test('hasard.Number(Object)', t => {
 			const average = 1 / counts.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold); // TODO: can failed??
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly
 			}
 		},
 	).then(() => {
@@ -224,7 +224,7 @@ test('hasard.Integer([start, end])', t => {
 			const average = 1 / values.length;
 			const threshold = 1 / Math.sqrt(as.length);
 			for (const c of counts) {
-				t.true(Math.abs(c - average) < threshold);
+				t.true(Math.abs(c - average) < threshold); // TODO: change this test failed randomly
 			}
 		},
 	);
