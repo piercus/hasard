@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "xo",
+    "fmt": "xo --fix",
     "test": "nyc ava test/*",
     "semantic-release": "semantic-release",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
@@ -51,8 +52,18 @@
   },
   "homepage": "https://github.com/piercus/hasard#readme",
   "devDependencies": {
-    "ava": "^1.2.1",
-    "semantic-release": "^15.13.3",
-    "xo": "^0.24.0"
+    "ava": "^6.1.2",
+    "nyc": "^15.1.0",
+    "semantic-release": "^23.0.2",
+    "xo": "^0.57.0"
+  },
+  "xo": {
+    "rules": {
+      "unicorn/no-new-array": 0,
+      "unicorn/prevent-abbreviations": 0,
+      "logical-assignment-operators": 0,
+      "unicorn/prefer-module": 0,
+      "import/extensions": 0
+    }
   }
 }
